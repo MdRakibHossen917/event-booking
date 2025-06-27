@@ -12,7 +12,7 @@ const AllGroups = () => {
   const [joinedGroups, setJoinedGroups] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/groups")
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/groups")
       .then((res) => res.json())
       .then((data) => {
         setGroups(data);
@@ -24,7 +24,9 @@ const AllGroups = () => {
       });
 
     if (user?.email) {
-      fetch(`http://localhost:5000/user-joined-groups?email=${user.email}`)
+      fetch(
+        `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setJoinedGroups(data.map((g) => g.groupId.toString()));
@@ -49,7 +51,7 @@ const AllGroups = () => {
       joinedAt: new Date(),
     };
 
-    fetch("http://localhost:5000/joinGroup", {
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/joinGroup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +77,9 @@ const AllGroups = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-4 mx-4 mt-4 md:mx-14">All of Events</h2>
+      <h2 className="text-3xl font-bold mb-4 mx-4 mt-4 md:mx-14">
+        All of Events
+      </h2>
       <p className="text-gray-600 text-base mb-4 mx-4 md:mx-14 max-w-7xl">
         Browse through all available hobby groups in the community. Discover new
         interests, connect with like-minded people, and join groups that inspire

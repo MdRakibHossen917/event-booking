@@ -10,7 +10,9 @@ const JoinedGroups = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:5000/user-joined-groups?email=${user.email}`)
+    fetch(
+      `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+    )
       .then((res) => res.json())
       .then(async (joinedData) => {
         const groupIds = joinedData.map((g) => g.groupId);
@@ -21,11 +23,14 @@ const JoinedGroups = () => {
           return;
         }
 
-        const res = await fetch("http://localhost:5000/groupsByIds", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: groupIds }),
-        });
+        const res = await fetch(
+          "https://event-booking-server-l2liirj9x.vercel.app/groupsByIds",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: groupIds }),
+          }
+        );
         const groupsDetails = await res.json();
         setJoinedGroups(groupsDetails);
         setLoading(false);
@@ -38,7 +43,7 @@ const JoinedGroups = () => {
 
   // Leave group handler
   const handleLeaveGroup = (groupId) => {
-    fetch("http://localhost:5000/leaveGroup", {
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/leaveGroup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ groupId, userEmail: user.email }),

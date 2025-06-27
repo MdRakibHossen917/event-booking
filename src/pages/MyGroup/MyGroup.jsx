@@ -12,10 +12,11 @@ const MyGroup = () => {
   const [loading, setLoading] = useState(true);
   const [editingGroup, setEditingGroup] = useState(null);
 
-
   const fetchCreatedGroups = () => {
     if (!userEmail) return;
-    fetch(`http://localhost:5000/groups?userEmail=${userEmail}`)
+    fetch(
+      `https://event-booking-server-l2liirj9x.vercel.app/groups?userEmail=${userEmail}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setCreatedGroups(data);
@@ -23,10 +24,11 @@ const MyGroup = () => {
       .catch((err) => console.error(err));
   };
 
-
   const fetchJoinedGroupIds = () => {
     if (!userEmail) return;
-    fetch(`http://localhost:5000/user-joined-groups?email=${userEmail}`)
+    fetch(
+      `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${userEmail}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setJoinedGroupIds(data.map((g) => g.groupId));
@@ -41,7 +43,7 @@ const MyGroup = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/groupsByIds`, {
+    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groupsByIds`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids }),
@@ -74,7 +76,6 @@ const MyGroup = () => {
     }
   }, [joinedGroupIds]);
 
-
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -86,7 +87,10 @@ const MyGroup = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/groups/${id}`, { method: "DELETE" })
+        fetch(
+          `https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`,
+          { method: "DELETE" }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -115,7 +119,7 @@ const MyGroup = () => {
       confirmButtonText: "Yes, leave group!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/leaveGroup`, {
+        fetch(`https://event-booking-server-l2liirj9x.vercel.app/leaveGroup`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -166,11 +170,14 @@ const MyGroup = () => {
       userEmail: userEmail,
     };
 
-    fetch(`http://localhost:5000/groups/${editingGroup._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedGroup),
-    })
+    fetch(
+      `https://event-booking-server-l2liirj9x.vercel.app/groups/${editingGroup._id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedGroup),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

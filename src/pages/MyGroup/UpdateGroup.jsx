@@ -3,14 +3,14 @@ import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const UpdateGroup = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/groups/${id}`)
+    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch group data");
         return res.json();
@@ -41,11 +41,10 @@ const UpdateGroup = () => {
       formattedDate: form.formattedDate.value,
       formatHour: form.formatHour.value,
       day: form.day.value,
-     
     };
 
-    fetch(`http://localhost:5000/groups/${id}`, {
-      method: "PUT", 
+    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -13,10 +13,10 @@ const LatestCard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/groups")
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/groups")
       .then((res) => res.json())
       .then((data) => {
-        setGroups(data.slice(0, 8)); 
+        setGroups(data.slice(0, 8));
         setLoading(false);
       })
       .catch((err) => {
@@ -27,7 +27,9 @@ const LatestCard = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/user-joined-groups?email=${user.email}`)
+      fetch(
+        `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setJoinedGroups(data.map((g) => g.groupId.toString()));
@@ -52,7 +54,7 @@ const LatestCard = () => {
       joinedAt: new Date(),
     };
 
-    fetch("http://localhost:5000/joinGroup", {
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/joinGroup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,11 +81,7 @@ const LatestCard = () => {
   return (
     <div>
       <h2 className="text-3xl font-bold   text-center mx-8 text-gray-800">
-        <span className="text-red-600">
-          
-          Explore
-        </span>{" "}
-        Recent Events
+        <span className="text-red-600">Explore</span> Recent Events
       </h2>
       <p className="text-base text-gray-600 text-center mb-6 mx-8 max-w-7xl">
         Stay in the loop with the latest hobby group events and activities.

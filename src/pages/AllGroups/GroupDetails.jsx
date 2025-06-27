@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-
 const GroupDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [group, setGroup] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/groups`)
+    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups`)
       .then((res) => res.json())
       .then((data) => {
         const selected = data.find((item) => item._id === id);
@@ -41,10 +40,8 @@ const GroupDetails = () => {
       <p className="mt-2">{group.description}</p>
 
       <div className="mt-4 flex items-center justify-between gap-3 border-t pt-3">
-       
         <div className="  ">
-          
-          <img 
+          <img
             src={
               group.creatorImage ||
               "https://via.placeholder.com/40?text=No+Image"

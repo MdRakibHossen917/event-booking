@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
- 
+
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
 
@@ -10,7 +10,9 @@ const MyCreatedGroups = () => {
 
   const fetchMyGroups = () => {
     if (!user?.email) return;
-    fetch(`http://localhost:5000/groups?userEmail=${user.email}`)
+    fetch(
+      `https://event-booking-server-l2liirj9x.vercel.app/groups?userEmail=${user.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setGroups(data);
@@ -36,9 +38,12 @@ const MyCreatedGroups = () => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/groups/${id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {

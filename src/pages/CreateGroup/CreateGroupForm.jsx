@@ -38,7 +38,7 @@ const CreateGroupForm = () => {
       userEmail: user?.email,
     };
 
-    fetch("http://localhost:5000/createGroup", {
+    fetch("https://event-booking-server-l2liirj9x.vercel.app/createGroup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newGroup),
@@ -54,7 +54,6 @@ const CreateGroupForm = () => {
             timer: 2000,
             showConfirmButton: false,
           }).then(() => {
-            
             setFormData({
               groupName: "",
               description: "",
@@ -65,7 +64,7 @@ const CreateGroupForm = () => {
               formatHour: "",
               day: "",
             });
-          
+
             navigate("/myGroup");
           });
         } else {
@@ -91,8 +90,6 @@ const CreateGroupForm = () => {
       onSubmit={handleSubmit}
       className="max-w-3xl mx-auto p-2 bg-white rounded-lg shadow-md"
     >
-     
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Group Name */}
         <div>
