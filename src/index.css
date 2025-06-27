@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.active {
+  text-decoration: underline rgb(72, 5, 255);
+  /* color: #efb00e;  */
+  font-weight: 800;
+
+}
+
+/* theme daisyUI */
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake, aqua;
+}
