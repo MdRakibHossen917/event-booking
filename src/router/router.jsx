@@ -17,6 +17,8 @@ import MyCreatedGroups from "../Dashboard/MyCreatedGroups";
 import GroupDetails from "../pages/AllGroups/GroupDetails";
 import ComingSoon from "../shared/ComingSoon";
 import Error from "../pages/Error/Error";
+import Contact from "../pages/Contact/Contact";
+import BlogPage from "../pages/BlogPage/BlogPage";
  
  
 
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
       {
         path: "/come",
         element: <ComingSoon />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/blog",
+        element: <BlogPage />,
       },
     ],
   },

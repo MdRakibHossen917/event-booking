@@ -7,7 +7,7 @@ const GroupDetails = () => {
   const [group, setGroup] = useState(null);
 
   useEffect(() => {
-    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups`)
+    fetch(` https://event-booking-server-wheat.vercel.app/groups`)
       .then((res) => res.json())
       .then((data) => {
         const selected = data.find((item) => item._id === id);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import Button from "../../shared/Button";
 
 const MyGroup = () => {
   const { user } = useContext(AuthContext);
@@ -15,7 +16,7 @@ const MyGroup = () => {
   const fetchCreatedGroups = () => {
     if (!userEmail) return;
     fetch(
-      `https://event-booking-server-l2liirj9x.vercel.app/groups?userEmail=${userEmail}`
+      ` https://event-booking-server-wheat.vercel.app/groups?userEmail=${userEmail}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -27,7 +28,7 @@ const MyGroup = () => {
   const fetchJoinedGroupIds = () => {
     if (!userEmail) return;
     fetch(
-      `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${userEmail}`
+      `https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${userEmail}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -43,7 +44,7 @@ const MyGroup = () => {
       return;
     }
 
-    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groupsByIds`, {
+    fetch(`https://event-booking-server-wheat.vercel.app/groupsByIds`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids }),
@@ -87,10 +88,9 @@ const MyGroup = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(
-          `https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`,
-          { method: "DELETE" }
-        )
+        fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -119,7 +119,7 @@ const MyGroup = () => {
       confirmButtonText: "Yes, leave group!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://event-booking-server-l2liirj9x.vercel.app/leaveGroup`, {
+        fetch(` https://event-booking-server-wheat.vercel.app/leaveGroup`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -171,7 +171,7 @@ const MyGroup = () => {
     };
 
     fetch(
-      `https://event-booking-server-l2liirj9x.vercel.app/groups/${editingGroup._id}`,
+      ` https://event-booking-server-wheat.vercel.app/groups/${editingGroup._id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -198,10 +198,10 @@ const MyGroup = () => {
 
   return (
     <div>
-      <h2 className="text-3xl  font-bold my-4 text-center mx-4 md:mx-14">
+      <h2 className="text-3xl text-[#27548A]  font-bold my-4 text-center mx-4 md:mx-14">
         My Created Events
       </h2>
-      <p className="text-gray-600 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
+      <p className="text-gray-800 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
         Here are the hobby groups you have organized. Manage your events, update
         group details, and keep track of member participation all in one
         convenient place.
@@ -224,7 +224,7 @@ const MyGroup = () => {
       <h2 className="text-3xl font-bold mb-4 mx-4 text-center md:mx-14">
         Events You Joined
       </h2>
-      <p className="text-gray-600 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
+      <p className="text-gray-800 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
         Discover and stay connected with the hobby groups you have joined.
         Engage in upcoming events, collaborate with fellow members, and never
         miss out on activities tailored to your interests. Manage your
@@ -262,7 +262,7 @@ const MyGroup = () => {
               defaultValue={editingGroup.groupName}
               required
               placeholder="Group Name"
-              className="input input-bordered w-full mb-2"
+              className="input input-bordered  w-full mb-2"
             />
             <select
               name="category"
@@ -365,30 +365,54 @@ const GroupCard = ({
   const isJoinedButNotCreator = !isCreator && group.userEmail !== userEmail;
 
   return (
-    <div className="  p-4 rounded shadow-xl relative">
+    <div className="p-4 rounded-lg shadow-md bg-white flex flex-col h-full">
+      {/* Group Image */}
       <img
         src={group.image}
-        alt={group.groupName}
-        className="w-full h-40 object-cover font-bold rounded"
+        alt={group.groupName || "Group image"}
+        className="w-full h-40 object-cover rounded-lg mb-3"
       />
-      <h3 className="text-xl font-semibold mt-2">{group.groupName}</h3>
-      <p>{group.description}</p>
-      <p>
-        <strong>Location:</strong> {group.location}
+
+      {/* Group Name */}
+      <h3 className="text-xl font-semibold text-gray-900 truncate">
+        {group.groupName}
+      </h3>
+
+      {/* Group Description */}
+      <p className="text-gray-700 text-sm mt-1 mb-1 line-clamp-2">
+        {group.description?.split(" ").slice(0, 10).join(" ")}
+        {group.description?.split(" ").length > 10 ? "..." : ""}
       </p>
-      <p>
-        <strong>Max Members:</strong> {group.maxMembers}
-      </p>
-      <p>
-        <strong>Date:</strong> {group.formattedDate} {group.formatHour}
-      </p>
-      <p>
-        <strong>Day:</strong> {group.day}
-      </p>
-      <div className="flex justify-end gap-1">
-        <button
+
+      {/* Group Details */}
+      <div className=" text-sm text-gray-700">
+        <div className="flex">
+          <span className="font-medium text-gray-900">Location : </span>
+          <span className="flex-1"> {group.location}</span>
+        </div>
+        <div>
+          <span className="font-medium text-gray-900">Max Members :</span>
+          <span>{group.maxMembers}</span>
+        </div>
+        <div>
+          <span className="font-medium text-gray-900">Date :</span>
+          <span>
+            {group.formattedDate} {group.formatHour}
+          </span>
+        </div>
+        <div>
+          <span className="font-medium text-gray-900 ">Day : </span>
+          <span> {group.day}</span>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="mt-auto flex flex-col gap-2 pt-1">
+        <Button
           onClick={() => handleEditClick(group)}
-          className="btn btn-sm btn-primary  "
+          className={`btn btn-sm btn-primary w-full ${
+            isJoinedButNotCreator ? "btn-disabled" : ""
+          }`}
           disabled={isJoinedButNotCreator}
           title={
             isJoinedButNotCreator
@@ -396,12 +420,11 @@ const GroupCard = ({
               : ""
           }
         >
-          Edit
-        </button>
+          Update
+        </Button>
         <button
           onClick={handleDelete}
-          className="btn btn-sm btn-error  "
-          disabled={isCreator ? false : false}
+          className="btn btn-sm btn-error text-white w-full"
           title={isCreator ? "" : "Leave this group"}
         >
           {isCreator ? "Delete" : "Leave"}
@@ -409,6 +432,7 @@ const GroupCard = ({
       </div>
     </div>
   );
+  
 };
 
 export default MyGroup;

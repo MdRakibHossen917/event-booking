@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { Link } from "react-router";
 import DaysLeft from "../../shared/DaysLeft";
 import { IoLocationOutline } from "react-icons/io5";
+import Button from "../../shared/Button";
 
 const AllGroups = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const AllGroups = () => {
   const [joinedGroups, setJoinedGroups] = useState([]);
 
   useEffect(() => {
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/groups")
+    fetch("https://event-booking-server-wheat.vercel.app/groups")
       .then((res) => res.json())
       .then((data) => {
         setGroups(data);
@@ -22,10 +23,9 @@ const AllGroups = () => {
         console.error(err);
         setLoading(false);
       });
-
     if (user?.email) {
       fetch(
-        `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+        ` https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${user.email}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -51,7 +51,7 @@ const AllGroups = () => {
       joinedAt: new Date(),
     };
 
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/joinGroup", {
+    fetch(" https://event-booking-server-wheat.vercel.app/joinGroup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,10 +77,10 @@ const AllGroups = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-4 mx-4 mt-4 md:mx-14">
+      <h2 className="text-3xl text-[#27548A] text-center  font-bold mb-4 mx-4 mt-6 md:mx-14">
         All of Events
       </h2>
-      <p className="text-gray-600 text-base mb-4 mx-4 md:mx-14 max-w-7xl">
+      <p className="text-gray-700 text-center text-base mb-4 mx-4 md:mx-14 max-w-7xl">
         Browse through all available hobby groups in the community. Discover new
         interests, connect with like-minded people, and join groups that inspire
         you.
@@ -114,39 +114,44 @@ const AllGroups = () => {
                     alt={group.groupName}
                     className="w-full h-full object-cover rounded-lg"
                   />
-                  <div className="absolute top-2 right-2 bg-red-500 text-white text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full shadow-sm tracking-wide">
+                  <div className="absolute top-2 right-2 bg-[#27548A] text-white text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full shadow-sm tracking-wide">
                     <DaysLeft eventDate={group.formattedDate} />
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-semibold mt-4 mb-1 text-gray-800">
+                <h3 className="text-xl font-semibold mt-2  text-gray-800">
                   {group.groupName}
                 </h3>
 
-                <p className="text-gray-600 flex items-center mb-3">
+                <p className="text-gray-600 flex items-center">
                   <strong>
                     {" "}
                     <IoLocationOutline size={25} className="text-blue-600" />
                   </strong>
                   {group.location}
                 </p>
+                {/* Group Description */}
+                <p className="text-gray-700 text-sm mt-1 mb-1 line-clamp-2">
+                  {group.description?.split(" ").slice(0, 10).join(" ")}
+                  {group.description?.split(" ").length > 10 ? "..." : ""}
+                </p>
 
                 <Link to={`/group/${group._id}`}>
-                  <button className="btn btn-sm w-full mb-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none hover:from-blue-600 hover:to-indigo-700">
+                  <Button className="btn-sm w-full text-white ">
                     View Details
-                  </button>
+                  </Button>
                 </Link>
 
                 <button
                   onClick={() => handleJoinGroup(group)}
                   disabled={isCreator || alreadyJoined}
-                  className={`btn btn-sm w-full
+                  className={`btn btn-sm w-full mt-1 border-none
     ${
       isCreator
         ? "bg-gray-400 cursor-not-allowed text-gray-700"
         : alreadyJoined
         ? "bg-green-600 hover:bg-green-700 text-white cursor-not-allowed"
-        : "bg-blue-600 hover:bg-blue-700 text-white"
+        : "bg-[#27548A]  hover:bg-[#000B58] text-white"
     }
   `}
                 >

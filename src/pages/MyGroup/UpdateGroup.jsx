@@ -10,7 +10,7 @@ const UpdateGroup = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`)
+    fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch group data");
         return res.json();
@@ -43,7 +43,7 @@ const UpdateGroup = () => {
       day: form.day.value,
     };
 
-    fetch(`https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`, {
+    fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

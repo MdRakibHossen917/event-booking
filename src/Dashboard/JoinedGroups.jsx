@@ -11,7 +11,7 @@ const JoinedGroups = () => {
     if (!user?.email) return;
 
     fetch(
-      `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+      ` https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${user.email}`
     )
       .then((res) => res.json())
       .then(async (joinedData) => {
@@ -24,7 +24,7 @@ const JoinedGroups = () => {
         }
 
         const res = await fetch(
-          "https://event-booking-server-l2liirj9x.vercel.app/groupsByIds",
+          " https://event-booking-server-wheat.vercel.app/groupsByIds",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -43,7 +43,7 @@ const JoinedGroups = () => {
 
   // Leave group handler
   const handleLeaveGroup = (groupId) => {
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/leaveGroup", {
+    fetch(" https://event-booking-server-wheat.vercel.app/leaveGroup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ groupId, userEmail: user.email }),

@@ -7,11 +7,11 @@ import Footer from "../Footer/Footer";
 
 const RootLayouts = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="">
+    <div className="bg-white">
+      <div className="mt-18">
         <Navbar />
       </div>
-      <div className="flex-grow mt-17">
+      <div className="min-h-[calc(100vh-72px)]">
         <Outlet />
       </div>
       <Footer />

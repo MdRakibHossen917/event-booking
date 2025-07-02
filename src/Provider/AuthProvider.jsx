@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
 
       // **নতুন** — ইউজার লগইন হওয়ার পর MongoDB তে ইউজার ডেটা সেভ করার জন্য fetch
       if (currentUser?.email) {
-        fetch("https://event-booking-server-l2liirj9x.vercel.app/save-user", {
+        fetch(" https://event-booking-server-wheat.vercel.app/save-user", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

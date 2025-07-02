@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import Button from "../../shared/Button";
 
 const CreateGroupForm = () => {
   const { user } = useContext(AuthContext);
@@ -38,7 +39,7 @@ const CreateGroupForm = () => {
       userEmail: user?.email,
     };
 
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/createGroup", {
+    fetch(" https://event-booking-server-wheat.vercel.app/createGroup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newGroup),
@@ -261,13 +262,13 @@ const CreateGroupForm = () => {
         </div>
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className={`btn btn-primary w-full mt-6 ${loading ? "loading" : ""}`}
+        className={`btn btn-primary w-full my-6 ${loading ? "loading" : ""}`}
       >
         {loading ? "Creating..." : "Create Group"}
-      </button>
+      </Button>
     </form>
   );
 };

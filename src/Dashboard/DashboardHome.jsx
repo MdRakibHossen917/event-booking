@@ -26,7 +26,7 @@ const DashboardHome = () => {
 
   useEffect(() => {
     // Fetch chart data
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/dashboard-stats")
+    fetch(" https://event-booking-server-wheat.vercel.app/dashboard-stats")
       .then((res) => res.json())
       .then((data) => {
         setChartData(data);
@@ -41,27 +41,27 @@ const DashboardHome = () => {
     async function fetchStats() {
       try {
         const totalRes = await fetch(
-          "https://event-booking-server-l2liirj9x.vercel.app/groups"
+          " https://event-booking-server-wheat.vercel.app/groups"
         );
         const totalData = await totalRes.json();
         setTotalGroups(totalData.length);
 
         if (user?.email) {
           const myGroupsRes = await fetch(
-            `https://event-booking-server-l2liirj9x.vercel.app/groups?userEmail=${user.email}`
+            ` https://event-booking-server-wheat.vercel.app/groups?userEmail=${user.email}`
           );
           const myGroupsData = await myGroupsRes.json();
           setMyGroupsCount(myGroupsData.length);
 
           const joinedRes = await fetch(
-            `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+            ` https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${user.email}`
           );
           const joinedData = await joinedRes.json();
           setJoinedGroupsCount(joinedData.length);
         }
 
         const userCountRes = await fetch(
-          "https://event-booking-server-l2liirj9x.vercel.app/totalUsers"
+          " https://event-booking-server-wheat.vercel.app/totalUsers"
         );
         const userCountData = await userCountRes.json();
         setTotalUsers(userCountData.total);

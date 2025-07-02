@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { Link } from "react-router";
-
+import { Link } from "react-router"; 
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
-import { FaInternetExplorer } from "react-icons/fa";
+import Button from "./Button";
 
 const LatestCard = () => {
   const { user } = useContext(AuthContext);
@@ -13,9 +12,10 @@ const LatestCard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/groups")
+    fetch("https://event-booking-server-wheat.vercel.app/groups")
       .then((res) => res.json())
       .then((data) => {
+        console.log("Fetched Data:", data);
         setGroups(data.slice(0, 8));
         setLoading(false);
       })
@@ -28,7 +28,7 @@ const LatestCard = () => {
   useEffect(() => {
     if (user?.email) {
       fetch(
-        `https://event-booking-server-l2liirj9x.vercel.app/user-joined-groups?email=${user.email}`
+        `https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${user.email}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -54,7 +54,7 @@ const LatestCard = () => {
       joinedAt: new Date(),
     };
 
-    fetch("https://event-booking-server-l2liirj9x.vercel.app/joinGroup", {
+    fetch("https://event-booking-server-wheat.vercel.app/joinGroup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const LatestCard = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold   text-center mx-8 text-gray-800">
+      <h2 className="text-3xl font-bold text-center mx-8 text-gray-800">
         <span className="text-red-600">Explore</span> Recent Events
       </h2>
       <p className="text-base text-gray-600 text-center mb-6 mx-8 max-w-7xl">
@@ -89,43 +89,51 @@ const LatestCard = () => {
         community connections.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4 mb-4">
         {groups.map((group) => {
           const alreadyJoined = joinedGroups.includes(group._id.toString());
           return (
-            <div key={group._id} className="p-4 rounded shadow">
+            <div
+              key={group._id}
+              className="p-4 rounded shadow flex flex-col h-full"
+            >
               <img
                 src={group.image}
                 alt={group.groupName}
                 className="w-full h-40 object-cover rounded"
               />
-              <h3 className="text-xl font-semibold mt-2">{group.groupName}</h3>
-              <p className="flex items-center">
-                <IoLocationOutline size={25} className="text-blue-600 mb-1" />
+              <h3 className="text-xl text-gray-900 font-bold mt-2">
+                {group.groupName}
+              </h3>
+              <p className="flex text-gray-800 font-semibold items-center">
+                <IoLocationOutline size={20} className="text-blue-600 mr-1" />
                 {group.location}
               </p>
+              <p className="text-gray-700 text-sm">
+                {group.description?.split(" ").slice(0, 10).join(" ")}...
+              </p>
 
-              <Link to={`/group/${group._id}`}>
-                <button className="btn btn-sm w-full mb-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none hover:from-blue-600 hover:to-indigo-700">
-                  View Details
-                </button>
-              </Link>
-
-              <button
-                onClick={() => handleJoinGroup(group)}
-                className="btn btn-sm btn-primary w-full"
-                disabled={alreadyJoined}
-              >
-                {alreadyJoined ? "Joined" : "Join"}
-              </button>
+              {/* Fixed bottom buttons */}
+              <div className="mt-auto space-y-2 pt-4">
+                <Link to={`/group/${group._id}`}>
+                  <Button className=" btn-sm w-full">View Details</Button>
+                </Link>
+                <Button
+                  onClick={() => handleJoinGroup(group)}
+                  className="btn-sm mt-1 w-full"
+                  disabled={alreadyJoined}
+                >
+                  {alreadyJoined ? "Joined" : "Join Now"}
+                </Button>
+              </div>
             </div>
           );
         })}
       </div>
 
-      <div className="text-center mt-6">
+      <div className="text-center">
         <Link to="/allGroups">
-          <button className="btn btn-primary my-6">See More..</button>
+          <Button className="btn my-4 w-1/2 md:w-1/3">See More..</Button>
         </Link>
       </div>
     </div>

@@ -3,8 +3,9 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { LuLogOut } from "react-icons/lu";
-import logo from "../assets/logo.png";
+import logo from "../assets/log.png";
 import { MdOutlineLogout } from "react-icons/md";
+import Button from "./Button";
 
 const links = (
   <>
@@ -25,7 +26,10 @@ const links = (
       </NavLink>
     </li>
     <li>
-      <NavLink to="/myGroup" className="flex items-center font-semibold gap-1">
+      <NavLink
+        to="/myGroup"
+        className="flex items-center text-gray-900 font-semibold gap-1"
+      >
         MyGroup
       </NavLink>
     </li>
@@ -33,13 +37,16 @@ const links = (
     <li>
       <NavLink
         to="/AllGroups"
-        className="flex items-center font-semibold gap-1"
+        className="flex items-center text-gray-900 font-semibold gap-1"
       >
         AllGroups
       </NavLink>
     </li>
     <li>
-      <NavLink to="/aboutUs" className="flex items-center font-semibold gap-1">
+      <NavLink
+        to="/aboutUs"
+        className="flex items-center text-gray-900 font-semibold gap-1"
+      >
         AboutUs
       </NavLink>
     </li>
@@ -84,7 +91,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar fixed top-0 left-0 w-full z-50 bg-blue-400 shadow-md">
+    <div className="navbar fixed top-0 left-0 w-full z-50 bg-[#27548A] shadow-md">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -127,15 +134,16 @@ const Navbar = () => {
           />
         </div>
         {user ? (
-          <button
+          <Button
+
             onClick={handleLogout}
-            className="btn btn-sm  btn-primary text-gray-900 rounded-xl   hover:bg-blue-600 flex items-center gap-1"
+            className="btn btn-sm  text-gray-900 rounded-xl    hover:bg-blue-600 flex items-center gap-1"
           >
             <span className="  text-white p-1 rounded-full">
               <MdOutlineLogout size={25} className="text-lg" />
             </span>
-             Logout
-          </button>
+            Logout
+          </Button>
         ) : (
           <>
             <NavLink

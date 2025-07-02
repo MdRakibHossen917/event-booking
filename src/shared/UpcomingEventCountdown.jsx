@@ -30,11 +30,11 @@ const UpcomingEventCountdown = () => {
   }, []);
 
   return (
-    <div className="bg-blue-50 py-12 px-6 text-center">
+    <div className="bg-[#a2cff1] rounded-2xl w-11/12 mx-auto py-12 px-6 text-center">
       <h2 className="text-3xl font-bold text-blue-700 mb-4 animate-pulse">
         ⏰ Big Event is Coming!
       </h2>
-      <p className="text-gray-600 text-lg mb-6">
+      <p className="text-gray-700 text-lg mb-6">
         Don't miss out! Join our exclusive event and be part of something
         exciting!
       </p>
@@ -42,32 +42,32 @@ const UpcomingEventCountdown = () => {
       {timeLeft.days !== undefined ? (
         <div className="flex justify-center gap-6 text-center">
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-600">
+            <span className="text-4xl font-bold text-blue-800">
               {timeLeft.days}
             </span>
-            <span className="text-gray-500">Days</span>
+            <span className="text-gray-800">Days</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-600">
+            <span className="text-4xl font-bold text-blue-800">
               {timeLeft.hours}
             </span>
-            <span className="text-gray-500">Hours</span>
+            <span className="text-gray-800">Hours</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-600">
+            <span className="text-4xl font-bold text-blue-800">
               {timeLeft.minutes}
             </span>
-            <span className="text-gray-500">Minutes</span>
+            <span className="text-gray-800">Minutes</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-600">
+            <span className="text-4xl font-bold text-blue-800">
               {timeLeft.seconds}
             </span>
-            <span className="text-gray-500">Seconds</span>
+            <span className="text-gray-800">Seconds</span>
           </div>
         </div>
       ) : (
-        <p className="text-xl text-red-500 font-semibold mt-4">
+        <p className="text-xl text-red-800 font-semibold mt-4">
           Event has started!
         </p>
       )}

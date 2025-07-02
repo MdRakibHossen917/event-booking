@@ -37,7 +37,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto my-5">
+    <div className="max-w-7xl mx-auto my-5">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={30}
@@ -49,7 +49,7 @@ const Banner = () => {
       >
         {slides.map(({ id, title, subtitle, image, ctaLink, ctaText }) => (
           <SwiperSlide key={id}>
-            <div className="relative h-[400px] md:h-[500px] w-full">
+            <div className="relative h-[300px] md:h-[400px] w-full">
               <img
                 src={image}
                 alt={title}
@@ -60,7 +60,7 @@ const Banner = () => {
                   <h1 className="text-3xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">
                     {title}
                   </h1>
-                  <p className="text-lg md:text-2xl mb-10 drop-shadow-md">
+                  <p className="text-lg md:text-2xl mb-12 drop-shadow-md">
                     {subtitle}
                   </p>
                   <a

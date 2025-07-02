@@ -11,7 +11,7 @@ const MyCreatedGroups = () => {
   const fetchMyGroups = () => {
     if (!user?.email) return;
     fetch(
-      `https://event-booking-server-l2liirj9x.vercel.app/groups?userEmail=${user.email}`
+      ` https://event-booking-server-wheat.vercel.app/groups?userEmail=${user.email}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -38,12 +38,9 @@ const MyCreatedGroups = () => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(
-          `https://event-booking-server-l2liirj9x.vercel.app/groups/${id}`,
-          {
-            method: "DELETE",
-          }
-        )
+        fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
