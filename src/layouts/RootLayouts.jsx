@@ -8,7 +8,7 @@ import Footer from "../Footer/Footer";
 const RootLayouts = () => {
   return (
     <div className="bg-white">
-      <div className="mt-18">
+      <div className="mt-16">
         <Navbar />
       </div>
       <div className="min-h-[calc(100vh-72px)]">

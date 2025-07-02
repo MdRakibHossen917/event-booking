@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router";
 import { Menu, X } from "lucide-react";
+import Button from "../shared/Button";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -17,9 +18,9 @@ const DashboardLayout = () => {
       {/* Mobile Toggle Button */}
       <div className="md:hidden bg-white shadow px-4 py-3 flex justify-between items-center">
         <h2 className="text-xl font-bold text-[#27548A]">Dashboard</h2>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <Button onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        </Button>
       </div>
 
       {/* Sidebar */}
@@ -29,7 +30,7 @@ const DashboardLayout = () => {
         } fixed md:static z-50 h-full md:h-auto`}
       >
         <div className="p-6 space-y-3">
-          <h2 className="text-2xl font-bold text-[#27548A] mb-4 hidden md:block">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 hidden md:block">
             📊 Dashboard
           </h2>
 
