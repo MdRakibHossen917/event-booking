@@ -64,8 +64,10 @@ const MyCreatedGroups = () => {
   if (loading) return <p>Loading your groups...</p>;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">My Created Groups</h1>
+    <div className="text-black">
+      <h1 className="text-2xl font-bold mb-6 text-[#27548A]">
+        My Created Groups
+      </h1>
       {groups.length === 0 && <p>No groups created by you.</p>}
       <ul className="space-y-4">
         {groups.map((group) => (

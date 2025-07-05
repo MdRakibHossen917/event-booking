@@ -1,81 +1,65 @@
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Fade } from "react-awesome-reveal";
+import { motion } from "framer-motion";
+import { Link } from "react-router";
+import Button from "./Button";
 
 const Banner = () => {
-  const slides = [
-    {
-      id: 1,
-      title: "Find Your Hobby Buddies!",
-      subtitle: "Join local groups and enjoy your passion",
-      image:
-        "https://i.ibb.co/1tSCjSRT/Chat-GPT-Image-May-21-2025-07-12-37-AM.png",
-      ctaLink: "/groups",
-      ctaText: "Explore Groups",
-    },
-    {
-      id: 2,
-      title: "Explore Nature with Friends",
-      subtitle: "Discover hiking groups near you",
-      image:
-        "https://i.ibb.co/xKhRFpc9/82557fdf-0604-41a6-99e6-ebda14da5565.jpg",
-      ctaLink: "/groups",
-      ctaText: "Explore Groups",
-    },
-    {
-      id: 3,
-      title: "Run for Fun",
-      subtitle:
-        "Join our running group to stay fit, motivated, and make new friends.",
-      image: "https://i.ibb.co/wFrzvhs0/running-picture-1.png",
-      ctaLink: "/groups",
-      ctaText: "Explore Groups",
-    },
-  ];
-
   return (
-    <div className="max-w-7xl mx-auto my-5">
-      <Swiper
-        modules={[Autoplay, Pagination]}
-        spaceBetween={30}
-        slidesPerView={1}
-        autoplay={{ delay: 4500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        loop={true}
-        className="rounded-lg overflow-hidden shadow-lg"
-      >
-        {slides.map(({ id, title, subtitle, image, ctaLink, ctaText }) => (
-          <SwiperSlide key={id}>
-            <div className="relative h-[300px] md:h-[400px] w-full">
-              <img
-                src={image}
-                alt={title}
-                className="w-full h-full object-cover brightness-75"
-              />
-              <Fade direction="up" triggerOnce cascade damping={0.9}>
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-6 md:px-12">
-                  <h1 className="text-3xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">
-                    {title}
-                  </h1>
-                  <p className="text-lg md:text-2xl mb-12 drop-shadow-md">
-                    {subtitle}
-                  </p>
-                  <a
-                    href={ctaLink}
-                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white font-semibold shadow-lg transition"
-                  >
-                    {ctaText}
-                  </a>
-                </div>
-              </Fade>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+    <section className="-mt-15 bg-gradient-to-br from-blue-50 to-white py-20 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
+        {/* Left Text Section */}
+        <div className="flex-1 text-center md:text-left space-y-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold text-[#27548A]"
+          >
+            Discover Local Hobby Groups
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className="text-gray-600 text-lg"
+          >
+            <span className="text-gray-800 font-semibold">
+              Join, create, and participate
+            </span>{" "}
+            in events that match your interests. From painting to hiking, find
+            your tribe today.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex justify-center md:justify-start"
+          >
+            <Link to="/allGroups">
+              <Button className=" lg:w-70  bg-blue-600 px-6 lg:px-15 text-white py-3 rounded hover:bg-blue-700 transition">
+                Explore Groups
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Right Image Section */}
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9 }}
+          className="flex-1"
+        >
+          <img
+            src="https://i.ibb.co/tMSwFtDD/group-Event.webp"
+            alt="Hero banner"
+            className="w-full h-auto rounded-2xl"
+          />
+        </motion.div>
+      </div>
+    </section>
   );
 };
 

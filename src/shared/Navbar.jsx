@@ -97,7 +97,7 @@ const Navbar = () => {
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 sm:h-8 md:h-9 lg:h-10 w-auto"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -117,7 +117,7 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost normal-case text-xl">
+        <Link to="/" className="normal-case text-xl">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
         </Link>
       </div>
@@ -135,7 +135,6 @@ const Navbar = () => {
         </div>
         {user ? (
           <Button
-
             onClick={handleLogout}
             className="btn btn-sm  text-gray-900 rounded-xl    hover:bg-blue-600 flex items-center gap-1"
           >
@@ -148,13 +147,15 @@ const Navbar = () => {
           <>
             <NavLink
               to="/auth/login"
-              className="btn btn-outline text-gray-900 btn-sm"
+              className="btn bg-[#27548A] border-none shadow-5xl text-white btn-sm"
             >
               Login
             </NavLink>
+
+            {/* Register button visible from md and up only */}
             <NavLink
               to="/auth/register"
-              className="btn btn-outline text-gray-900 btn-sm"
+              className="btn bg-[#27548A] border-none shadow-5xl text-white btn-sm hidden md:inline-flex"
             >
               Register
             </NavLink>

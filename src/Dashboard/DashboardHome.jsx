@@ -79,8 +79,8 @@ const DashboardHome = () => {
   if (loadingChart || loadingStats) return <p>Loading dashboard...</p>;
 
   return (
-    <div className="px-4 md:px-10 py-6 space-y-10">
-      <h1 className="text-3xl font-bold mb-6 text-blue-700">
+    <div className="px-4 md:px-10 py-6 space-y-10 text-black">
+      <h1 className="text-3xl font-bold mb-6 text-[#27548A]">
         Dashboard Overview
       </h1>
 

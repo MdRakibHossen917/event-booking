@@ -1,7 +1,18 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
- 
+a.active {
+  color: black;
+  text-decoration: underline;
+  text-decoration-color: black;
+  text-underline-offset: 4px;
+}
+
+
+
+
+
+
 
 /* theme daisyUI */
 @plugin "daisyui" {

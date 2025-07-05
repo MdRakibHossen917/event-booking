@@ -80,14 +80,16 @@ const LatestCard = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-center mx-8 text-gray-800">
-        <span className="text-red-600">Explore</span> Recent Events
-      </h2>
-      <p className="text-base text-gray-600 text-center mb-6 mx-8 max-w-7xl">
-        Stay in the loop with the latest hobby group events and activities.
-        Discover new experiences, join exciting meetups, and expand your
-        community connections.
-      </p>
+      <div className="text-center mx-auto max-w-3xl px-4">
+        <h2 className="text-3xl font-bold -mt-12 text-gray-800">
+          <span className="text-red-600">Explore</span> Recent Events
+        </h2>
+        <p className="text-base text-gray-600 mt-4">
+          Stay in the loop with the latest hobby group events and activities.
+          Discover new experiences, join exciting meetups, and expand your
+          community connections.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4 mb-4">
         {groups.map((group) => {

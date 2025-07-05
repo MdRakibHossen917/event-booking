@@ -19,6 +19,8 @@ import ComingSoon from "../shared/ComingSoon";
 import Error from "../pages/Error/Error";
 import Contact from "../pages/Contact/Contact";
 import BlogPage from "../pages/BlogPage/BlogPage";
+import EventOrganisers from "../shared/EventOrganisers";
+import VolunteerOpportunities from "../shared/VolunteerOpportunities";
  
  
 
@@ -83,6 +85,14 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <BlogPage />,
+      },
+      {
+        path: "/VolunteerOpp",
+        element: <VolunteerOpportunities />,
+      },
+      {
+        path: "/eventOrg",
+        element: <EventOrganisers />,
       },
     ],
   },

@@ -234,7 +234,7 @@ const CreateGroupForm = () => {
             type="url"
             value={formData.image}
             onChange={handleChange}
-            placeholder="Link to group image (optional)"
+            placeholder="Link to group image"
             disabled={loading}
             className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />

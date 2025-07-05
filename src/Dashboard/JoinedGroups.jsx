@@ -69,8 +69,8 @@ const JoinedGroups = () => {
   if (loading) return <p>Loading joined groups...</p>;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Joined Groups</h1>
+    <div className="text-black">
+      <h1 className="text-2xl font-bold mb-6 text-[#27548A]">Joined Groups</h1>
       {joinedGroups.length === 0 && <p>You haven't joined any groups yet.</p>}
       <ul className="space-y-4">
         {joinedGroups.map((group) => (

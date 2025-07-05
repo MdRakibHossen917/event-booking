@@ -11,6 +11,7 @@ import SinInIcon from '../../assets/Sign in-bro.png'
  
 import auth from "../../Firebase/Firebase.Config";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Button from "../../shared/Button";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          navigate(from, { replace: true }); // Sending to the previous page
+          navigate(from, { replace: true });  
         });
       })
       .catch((error) => {
@@ -85,14 +86,14 @@ const Login = () => {
         {/* Right Form */}
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-[#27548A]">
               Login to your Account
             </h2>
-            <p className="text-gray-700 mt-1">
+            <p className="text-gray-700 dark:text-gray-300 mt-1">
               Don't have an account?
               <Link
                 to="/auth/register"
-                className="ml-1 text-blue-600 underline font-semibold"
+                className="ml-1 text-[#27548A] underline font-semibold"
               >
                 Sign Up
               </Link>
@@ -112,7 +113,9 @@ const Login = () => {
           {/* Email/Password Login */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="label text-sm text-gray-600">Email</label>
+              <label className="label text-sm text-gray-700 dark:text-gray-300">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
@@ -123,7 +126,9 @@ const Login = () => {
             </div>
 
             <div>
-              <label className="label text-sm text-gray-600">Password</label>
+              <label className="label text-sm text-gray-700 dark:text-gray-300">
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
@@ -134,14 +139,14 @@ const Login = () => {
             </div>
 
             <div className="text-right">
-              <a className="text-sm text-gray-600 hover:underline cursor-pointer">
+              <a className="text-sm text-gray-700 dark:text-gray-300 hover:underline cursor-pointer">
                 Forgot password?
               </a>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
+            <Button type="submit" className="btn btn-primary w-full">
               Login
-            </button>
+            </Button>
           </form>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 import SignUpIcon from '../../assets/Sign up-rafiki.png'
+import Button from "../../shared/Button";
  
 
 const Register = () => {
@@ -91,14 +92,14 @@ const Register = () => {
         {/* Right Form */}
         <div className="w-full max-w-md mx-auto">
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-[#27548A]">
               Create a New Account
             </h2>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-700 dark:text-gray-300">
               Already have an account?
               <Link
                 to="/auth/login"
-                className="ml-1 text-blue-600 underline font-semibold"
+                className="ml-1 text-[#27548A] underline font-semibold"
               >
                 Log In
               </Link>
@@ -170,9 +171,9 @@ const Register = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-full mt-2">
+            <Button type="submit" className="btn btn-primary w-full mt-2">
               Sign Up
-            </button>
+            </Button>
           </form>
         </div>
       </div>
