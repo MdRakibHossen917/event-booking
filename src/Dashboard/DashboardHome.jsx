@@ -76,7 +76,15 @@ const DashboardHome = () => {
     fetchStats();
   }, [user]);
 
-  if (loadingChart || loadingStats) return <p>Loading dashboard...</p>;
+  if (loadingChart || loadingStats)
+    return (
+      <div className="flex items-center justify-center h-[50vh]">
+        <p className="text-lg font-medium text-gray-600">
+          Loading dashboard...
+        </p>
+      </div>
+    );
+  
 
   return (
     <div className="px-4 md:px-10 py-6 space-y-10 text-black">
@@ -147,18 +155,19 @@ const DashboardHome = () => {
         </ResponsiveContainer>
       </div>
       {/* Logged-in User Info Card */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-3 text-gray-700">
+      <div className="mt-10 bg-white p-4 rounded shadow-md">
+        <h2 className="text-xl font-semibold mb-3    text-[#27548A]">
           Logged-in User Info
         </h2>
 
-        <div className="border p-4 rounded bg-base-100 shadow-xl flex items-center gap-4">
+        <div className="border p-4 rounded shadow-xl flex flex-col sm:flex-row items-center sm:items-start gap-4">
           <img
             src={user?.photoURL || "https://via.placeholder.com/80"}
             alt={user?.displayName || "User"}
             className="w-20 h-20 rounded-full object-cover border"
           />
-          <div>
+
+          <div className="text-center sm:text-left text-[#27548A] ">
             <p className="text-lg font-semibold">
               <strong>Name:</strong> {user?.displayName || "No Name"}
             </p>

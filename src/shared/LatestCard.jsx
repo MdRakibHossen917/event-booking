@@ -84,7 +84,7 @@ const LatestCard = () => {
         <h2 className="text-3xl font-bold -mt-12 text-gray-800">
           <span className="text-red-600">Explore</span> Recent Events
         </h2>
-        <p className="text-base text-gray-600 mt-4">
+        <p className="text-base text-gray-600 my-4">
           Stay in the loop with the latest hobby group events and activities.
           Discover new experiences, join exciting meetups, and expand your
           community connections.

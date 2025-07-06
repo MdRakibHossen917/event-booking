@@ -25,7 +25,7 @@ const Banner = () => {
             className="text-gray-600 text-lg"
           >
             <span className="text-gray-800 font-semibold">
-              Join, create, and participate
+              Join, create and participate
             </span>{" "}
             in events that match your interests. From painting to hiking, find
             your tribe today.
@@ -38,7 +38,7 @@ const Banner = () => {
             className="flex justify-center md:justify-start"
           >
             <Link to="/allGroups">
-              <Button className=" lg:w-70  bg-blue-600 px-6 lg:px-15 text-white py-3 rounded hover:bg-blue-700 transition">
+              <Button className=" lg:w-70   bg-[#27548A] px-6 lg:px-15 text-white py-3 rounded hover:bg-blue-700 transition">
                 Explore Groups
               </Button>
             </Link>

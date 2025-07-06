@@ -198,10 +198,11 @@ const MyGroup = () => {
 
   return (
     <div>
-      <h2 className="text-3xl text-[#27548A]  font-bold my-4 text-center mx-4 md:mx-14">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl text-[#27548A] font-bold my-4 text-center px-4 md:px-10 lg:px-16">
         My Created Events
       </h2>
-      <p className="text-gray-800 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
+
+      <p className="text-gray-800 text-sm sm:text-base md:text-lg text-center mb-6 px-4 md:px-10 lg:px-16 max-w-4xl mx-auto">
         Here are the hobby groups you have organized. Manage your events, update
         group details, and keep track of member participation all in one
         convenient place.
@@ -221,10 +222,11 @@ const MyGroup = () => {
         ))}
       </div>
 
-      <h2 className="text-3xl font-bold mb-4 mx-4 text-center md:mx-14">
+      <h2 className="text-2xl text-[#27548A] sm:text-3xl md:text-4xl font-bold mb-4 text-center px-4 md:px-10 lg:px-16">
         Events You Joined
       </h2>
-      <p className="text-gray-800 text-base text-center mb-4 mx-4 md:mx-14 max-w-7xl">
+
+      <p className="text-gray-800 text-sm sm:text-base md:text-lg text-center mb-6 px-4 md:px-10 lg:px-16  max-w-5xl mx-auto">
         Discover and stay connected with the hobby groups you have joined.
         Engage in upcoming events, collaborate with fellow members, and never
         miss out on activities tailored to your interests. Manage your

@@ -2,9 +2,9 @@ import React from "react";
 
 const AboutUs = () => {
   return (
-    <section className="bg-gray-50 py-16 px-6 md:px-20">
+    <section className=" py-16 px-6 md:px-20">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-gray-800 mb-6">
+        <h2 className="text-4xl font-bold text-[#27548A] mb-6">
           About Hobby Hub
         </h2>
         <p className="text-lg text-gray-600 mb-8">

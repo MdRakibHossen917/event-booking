@@ -77,10 +77,11 @@ const AllGroups = () => {
 
   return (
     <div>
-      <h2 className="text-3xl text-[#27548A] text-center  font-bold mb-4 mx-4 mt-6 md:mx-14">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl text-[#27548A] text-center font-bold mb-4 mt-6 px-4 md:px-10 lg:px-16">
         All of Events
       </h2>
-      <p className="text-gray-700 text-center text-base mb-4 mx-4 md:mx-14 max-w-7xl">
+
+      <p className="text-gray-700 text-sm sm:text-base md:text-lg text-center mb-6 px-4 md:px-10 lg:px-16 max-w-4xl mx-auto">
         Browse through all available hobby groups in the community. Discover new
         interests, connect with like-minded people, and join groups that inspire
         you.

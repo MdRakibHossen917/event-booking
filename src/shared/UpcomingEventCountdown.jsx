@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 const UpcomingEventCountdown = () => {
-  const eventDate = new Date("2025-07-15T10:00:00");  
+  // Set event date to 20 days from now at 10:00 AM
+  const eventDate = new Date();
+  eventDate.setDate(eventDate.getDate() + 20);
+  eventDate.setHours(10, 0, 0, 0); // 10:00:00 AM
+
   const [timeLeft, setTimeLeft] = useState({});
 
   useEffect(() => {
@@ -27,48 +31,48 @@ const UpcomingEventCountdown = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [eventDate]);
 
   return (
-    <div className="bg-[#a2cff1] rounded-2xl w-11/12 mx-auto py-12 px-6 text-center">
+    <div className="bg-[#a2cff1] rounded-2xl w-10/12 mx-auto py-6 px-6 text-center mt-10">
       <h2 className="text-3xl font-bold text-blue-700 mb-4 animate-pulse">
         ⏰ Big Event is Coming!
       </h2>
-      <p className="text-gray-700 text-lg mb-6">
+
+      <p className="text-gray-700 text-lg mb-2">
+        📅 Event Date: {eventDate.toDateString()} at 10:00 AM
+      </p>
+
+      <p className="text-gray-700 text-base mb-6 max-w-xl mx-auto">
         Don't miss out! Join our exclusive event and be part of something
         exciting!
       </p>
 
       {timeLeft.days !== undefined ? (
-        <div className="flex justify-center gap-6 text-center">
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-800">
-              {timeLeft.days}
-            </span>
-            <span className="text-gray-800">Days</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-800">
-              {timeLeft.hours}
-            </span>
-            <span className="text-gray-800">Hours</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-800">
-              {timeLeft.minutes}
-            </span>
-            <span className="text-gray-800">Minutes</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-blue-800">
-              {timeLeft.seconds}
-            </span>
-            <span className="text-gray-800">Seconds</span>
-          </div>
+        <div className="flex justify-center flex-wrap gap-6 text-center">
+          {["Days", "Hours", "Minutes", "Seconds"].map((unit, i) => {
+            const value = [
+              timeLeft.days,
+              timeLeft.hours,
+              timeLeft.minutes,
+              timeLeft.seconds,
+            ][i];
+            return (
+              <div
+                key={unit}
+                className="flex flex-col items-center min-w-[70px]"
+              >
+                <span className="text-4xl font-bold text-blue-800">
+                  {value}
+                </span>
+                <span className="text-gray-800">{unit}</span>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <p className="text-xl text-red-800 font-semibold mt-4">
-          Event has started!
+          🚀 The Event Has Started!
         </p>
       )}
     </div>
