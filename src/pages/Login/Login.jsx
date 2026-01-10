@@ -103,7 +103,7 @@ const Login = () => {
           {/* Google Login */}
           <button
             onClick={handleGoogleSignIn}
-            className="btn w-full bg-white text-black border border-gray-300 flex items-center justify-center gap-3 mb-4 shadow-sm hover:shadow-md"
+            className="w-full bg-white text-gray-800 border-2 border-gray-300 rounded-lg flex items-center justify-center gap-3 mb-4 py-3 font-semibold shadow-sm hover:shadow-lg hover:border-gray-400 transition-all duration-200 active:scale-95"
           >
             <FcGoogle size={24} /> Login with Google
           </button>
@@ -144,7 +144,7 @@ const Login = () => {
               </a>
             </div>
 
-            <Button type="submit" className="btn btn-primary w-full">
+            <Button type="submit" className="w-full py-3 text-base">
               Login
             </Button>
           </form>

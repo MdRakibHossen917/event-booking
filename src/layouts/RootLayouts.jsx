@@ -7,7 +7,7 @@ import Footer from "../Footer/Footer";
 
 const RootLayouts = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-900">
       <div className="mt-16">
         <Navbar />
       </div>

@@ -31,12 +31,13 @@ const blogs = [
 
 const BlogPage = () => {
   return (
-    <div className="min-h-screen bg-[#f4f7fb] py-10 px-4 md:px-10">
-      <h2 className="text-4xl font-bold text-center text-[#27548A] mb-8">
-        Hobby Hub Blog
-      </h2>
+    <section className="min-h-screen bg-[#f4f7fb] dark:bg-gray-900 py-10 px-4 md:px-10">
+      <div className="w-11/12 mx-auto">
+        <h2 className="text-4xl font-bold text-center text-[#27548A] dark:text-blue-400 mb-8">
+          Hobby Hub Blog
+        </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {blogs.map((blog) => (
           <div
             key={blog.id}
@@ -61,8 +62,9 @@ const BlogPage = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

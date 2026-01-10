@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
@@ -7,66 +7,77 @@ import logo from "../assets/log.png";
 import { MdOutlineLogout } from "react-icons/md";
 import Button from "./Button";
 
-const links = (
-  <>
-    <li>
-      <NavLink
-        to="/"
-        className="flex items-center font-semibold text-gray-900 gap-1"
-      >
-        Home
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/createGroup"
-        className="flex items-center text-gray-900 font-semibold gap-1"
-      >
-        CreateGroup
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/myGroup"
-        className="flex items-center text-gray-900 font-semibold gap-1"
-      >
-        MyGroup
-      </NavLink>
-    </li>
-
-    <li>
-      <NavLink
-        to="/AllGroups"
-        className="flex items-center text-gray-900 font-semibold gap-1"
-      >
-        AllGroups
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/aboutUs"
-        className="flex items-center text-gray-900 font-semibold gap-1"
-      >
-        AboutUs
-      </NavLink>
-    </li>
-
-    {/*  Dashboard Link */}
-    <li>
-      <NavLink
-        to="/dashboard/home"
-        className="flex items-center font-semibold gap-1 text-gray-900"
-      >
-        Dashboard
-      </NavLink>
-    </li>
-  </>
-);
-
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const links = (
+    <>
+      <li>
+        <NavLink
+          to="/"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/createGroup"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          CreateGroup
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/myGroup"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          MyGroup
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink
+          to="/AllGroups"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          AllGroups
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/aboutUs"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          AboutUs
+        </NavLink>
+      </li>
+
+      {/*  Dashboard Link */}
+      <li>
+        <NavLink
+          to="/dashboard/home"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          Dashboard
+        </NavLink>
+      </li>
+    </>
+  );
 
   const handleLogout = () => {
     logOut()
@@ -91,10 +102,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar fixed top-0 left-0 w-full z-50 bg-[#27548A] shadow-md">
+    <div className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${isScrolled ? 'bg-[#27548A] dark:bg-[#1e3d6b]' : 'bg-[#101828] dark:bg-gray-900'}`}>
+      <div className="w-11/12 mx-auto navbar">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className={`btn btn-ghost lg:hidden ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 sm:h-8 md:h-9 lg:h-10 w-auto"
@@ -134,20 +146,22 @@ const Navbar = () => {
           />
         </div>
         {user ? (
-          <Button
+          <button
             onClick={handleLogout}
-            className="btn btn-sm  text-gray-900 rounded-xl    hover:bg-blue-600 flex items-center gap-1"
+            className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 ${
+              isScrolled 
+                ? 'bg-white text-[#27548A] hover:bg-gray-100 border border-white shadow-md hover:shadow-lg' 
+                : 'bg-[#27548A] text-white hover:bg-[#1e3d6b] border border-[#27548A] hover:shadow-lg'
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 ${isScrolled ? 'focus:ring-[#27548A]' : 'focus:ring-white'} active:scale-95`}
           >
-            <span className="  text-white p-1 rounded-full">
-              <MdOutlineLogout size={25} className="text-lg" />
-            </span>
-            Logout
-          </Button>
+            <MdOutlineLogout size={20} />
+            <span>Logout</span>
+          </button>
         ) : (
           <>
             <NavLink
               to="/auth/login"
-              className="btn bg-[#27548A] border-none shadow-5xl text-white btn-sm"
+              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg ${isScrolled ? 'bg-white text-[#27548A] hover:bg-gray-100' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
             >
               Login
             </NavLink>
@@ -155,12 +169,13 @@ const Navbar = () => {
             {/* Register button visible from md and up only */}
             <NavLink
               to="/auth/register"
-              className="btn bg-[#27548A] border-none shadow-5xl text-white btn-sm hidden md:inline-flex"
+              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hidden md:inline-flex ${isScrolled ? 'bg-white text-[#27548A] hover:bg-gray-100' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
             >
               Register
             </NavLink>
           </>
         )}
+      </div>
       </div>
     </div>
   );

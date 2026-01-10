@@ -76,69 +76,91 @@ const LatestCard = () => {
       });
   };
 
-  if (loading) return <p>Loading latest events...</p>;
+  if (loading) return <p className="text-center text-gray-600 dark:text-gray-400">Loading latest events...</p>;
 
   return (
-    <div>
-      <div className="text-center mx-auto max-w-3xl px-4">
-        <h2 className="text-3xl font-bold -mt-12 text-gray-800">
-          <span className="text-red-600">Explore</span> Recent Events
+    <section className="py-12 bg-white dark:bg-gray-900">
+      <div className="w-11/12 mx-auto">
+        <div className="text-center mx-auto max-w-3xl px-4 mb-12">
+        <h2 className="text-4xl md:text-5xl font-bold -mt-12 text-gray-800 dark:text-gray-100 mb-4">
+          <span className="text-[#27548A] dark:text-blue-400">Explore</span> Recent Events
         </h2>
-        <p className="text-base text-gray-600 my-4">
+        <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
           Stay in the loop with the latest hobby group events and activities.
           Discover new experiences, join exciting meetups, and expand your
           community connections.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4 mb-4">
-        {groups.map((group) => {
-          const alreadyJoined = joinedGroups.includes(group._id.toString());
-          return (
-            <div
-              key={group._id}
-              className="p-4 rounded shadow flex flex-col h-full"
-            >
-              <img
-                src={group.image}
-                alt={group.groupName}
-                className="w-full h-40 object-cover rounded"
-              />
-              <h3 className="text-xl text-gray-900 font-bold mt-2">
-                {group.groupName}
-              </h3>
-              <p className="flex text-gray-800 font-semibold items-center">
-                <IoLocationOutline size={20} className="text-blue-600 mr-1" />
-                {group.location}
-              </p>
-              <p className="text-gray-700 text-sm">
-                {group.description?.split(" ").slice(0, 10).join(" ")}...
-              </p>
+      <div className="px-4 mb-8 overflow-hidden">
+        <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 snap-x snap-mandatory">
+          {groups.map((group) => {
+            const alreadyJoined = joinedGroups.includes(group._id.toString());
+            return (
+              <div
+                key={group._id}
+                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/20 dark:hover:border-blue-500/30 group flex-shrink-0 w-[320px] md:w-[350px] lg:w-[380px] snap-start"
+              >
+                {/* Image Container */}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={group.image}
+                    alt={group.groupName}
+                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
 
-              {/* Fixed bottom buttons */}
-              <div className="mt-auto space-y-2 pt-4">
-                <Link to={`/group/${group._id}`}>
-                  <Button className=" btn-sm w-full">View Details</Button>
-                </Link>
-                <Button
-                  onClick={() => handleJoinGroup(group)}
-                  className="btn-sm mt-1 w-full"
-                  disabled={alreadyJoined}
-                >
-                  {alreadyJoined ? "Joined" : "Join Now"}
-                </Button>
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
+                    {group.groupName}
+                  </h3>
+                  
+                  <p className="flex text-gray-700 dark:text-gray-300 font-medium items-center mb-3 text-sm">
+                    <IoLocationOutline size={18} className="text-[#27548A] dark:text-blue-400 mr-2 flex-shrink-0" />
+                    <span className="truncate">{group.location}</span>
+                  </p>
+                  
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-5 line-clamp-2 flex-grow">
+                    {group.description?.split(" ").slice(0, 12).join(" ")}...
+                  </p>
+
+                  {/* Buttons */}
+                  <div className="mt-auto space-y-2 pt-2">
+                    <Link to={`/group/${group._id}`}>
+                      <Button className="w-full py-2.5 text-sm">
+                        View Details
+                      </Button>
+                    </Link>
+                    <Button
+                      onClick={() => handleJoinGroup(group)}
+                      className={`w-full py-2.5 text-sm ${
+                        alreadyJoined
+                          ? "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed hover:bg-gray-200 hover:shadow-none active:scale-100"
+                          : "bg-[#F5FAFF] dark:bg-gray-700 hover:bg-[#27548A] text-[#27548A] dark:text-blue-400 hover:text-white border-2 border-[#27548A] dark:border-blue-400 hover:border-[#27548A]"
+                      }`}
+                      disabled={alreadyJoined}
+                    >
+                      {alreadyJoined ? "✓ Joined" : "Join Now"}
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      <div className="text-center">
-        <Link to="/allGroups">
-          <Button className="btn my-4 w-1/2 md:w-1/3">See More..</Button>
-        </Link>
+        <div className="text-center mt-8">
+          <Link to="/allGroups">
+            <Button className="px-8 py-3 text-lg w-auto inline-block">
+              See More Events →
+            </Button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

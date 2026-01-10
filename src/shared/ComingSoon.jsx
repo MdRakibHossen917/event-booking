@@ -18,7 +18,7 @@ const ComingSoon = () => {
       </div>
       <button
         onClick={() => navigate(-1)}
-        className="btn btn-outline btn-primary"
+        className="px-6 py-3 bg-[#27548A] text-white rounded-lg font-semibold hover:bg-[#1e3d6b] transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2"
       >
         ← Back
       </button>

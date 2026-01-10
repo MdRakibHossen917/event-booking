@@ -8,6 +8,34 @@ a.active {
   text-underline-offset: 4px;
 }
 
+@media (prefers-color-scheme: dark) {
+  a.active {
+    color: white;
+    text-decoration-color: white;
+  }
+}
+
+[data-theme="dark"] a.active,
+.dark a.active {
+  color: white;
+  text-decoration-color: white;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Smooth scrolling */
+.scrollbar-hide {
+  scroll-behavior: smooth;
+}
+
 
 
 

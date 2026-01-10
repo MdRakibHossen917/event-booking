@@ -265,7 +265,7 @@ const CreateGroupForm = () => {
       <Button
         type="submit"
         disabled={loading}
-        className={`btn btn-primary w-full my-6 ${loading ? "loading" : ""}`}
+        className={`w-full py-3 text-base my-6 ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
       >
         {loading ? "Creating..." : "Create Group"}
       </Button>

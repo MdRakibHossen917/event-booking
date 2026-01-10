@@ -171,7 +171,7 @@ const Register = () => {
               />
             </div>
 
-            <Button type="submit" className="btn btn-primary w-full mt-2">
+            <Button type="submit" className="w-full py-3 text-base mt-2">
               Sign Up
             </Button>
           </form>

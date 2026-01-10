@@ -4,25 +4,27 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-[#27548A] text-white p-10">
-      {/* Logo + Name */}
-      <aside>
+    <footer className="bg-[#27548A] dark:bg-gray-800 text-white dark:text-gray-100 p-10">
+      <div className="w-11/12 mx-auto">
+        <div className="footer sm:footer-horizontal">
+          {/* Logo + Name */}
+          <aside>
         <img className="w-40 mb-3" src={logo} alt="GoJoy Logo" />
-        <p className="font-semibold">Md Rakib Hossen</p>
+        <p className="font-semibold text-white dark:text-gray-100">Md Rakib Hossen</p>
       </aside>
 
       {/* Services */}
       <nav>
-        <h6 className="footer-title text-white mb-2">Services</h6>
+        <h6 className="footer-title text-white dark:text-gray-100 mb-2">Services</h6>
         <Link
           to="/eventOrg"
-          className="link link-hover text-gray-300 hover:text-white"
+          className="link link-hover text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-100"
         >
           Event Organisers
         </Link>
         <Link
           to="/VolunteerOpp"
-          className="link link-hover text-gray-300 hover:text-white"
+          className="link link-hover text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-100"
         >
           Volunteer Opportunities
         </Link>
@@ -30,16 +32,16 @@ const Footer = () => {
 
       {/* Company */}
       <nav>
-        <h6 className="footer-title text-white mb-2">Company</h6>
+        <h6 className="footer-title text-white dark:text-gray-100 mb-2">Company</h6>
         <Link
           to={"/aboutUs"}
-          className="link link-hover text-gray-300 hover:text-white"
+          className="link link-hover text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-100"
         >
           About us
         </Link>
         <Link
           to={"/contact"}
-          className="link link-hover text-gray-300 hover:text-white"
+          className="link link-hover text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-100"
         >
           Contact
         </Link>
@@ -47,8 +49,8 @@ const Footer = () => {
 
       {/* Social Connect */}
       <nav>
-        <h6 className="footer-title text-white mb-2">Social Connect</h6>
-        <div className="flex gap-5 text-gray-300">
+        <h6 className="footer-title text-white dark:text-gray-100 mb-2">Social Connect</h6>
+        <div className="flex gap-5 text-gray-300 dark:text-gray-400">
           <a
             href="https://github.com/MdRakibHossen917"
             target="_blank"
@@ -107,6 +109,8 @@ const Footer = () => {
           </a>
         </div>
       </nav>
+        </div>
+      </div>
     </footer>
   );
 };

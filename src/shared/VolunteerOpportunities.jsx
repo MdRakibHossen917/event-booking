@@ -29,11 +29,12 @@ const VolunteerOpportunities = () => {
   ];
 
   return (
-    <section className="max-w-6xl mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center text-[#27548A] mb-8">
+    <section className="p-6 bg-white dark:bg-gray-900">
+      <div className="w-11/12 mx-auto">
+        <h1 className="text-4xl font-bold text-center text-[#27548A] dark:text-blue-400 mb-8">
         Volunteer Opportunities
       </h1>
-      <p className="text-center text-gray-700 mb-12 max-w-xl mx-auto">
+      <p className="text-center text-gray-700 dark:text-gray-300 mb-12 max-w-xl mx-auto">
         Explore ways to give back to your community. Find volunteer
         opportunities that fit your interests and schedule.
       </p>
@@ -42,20 +43,21 @@ const VolunteerOpportunities = () => {
         {opportunities.map(({ id, title, date, location, description }) => (
           <div
             key={id}
-            className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+            className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
           >
-            <h2 className="text-2xl font-semibold text-[#27548A] mb-2">
+            <h2 className="text-2xl font-semibold text-[#27548A] dark:text-blue-400 mb-2">
               {title}
             </h2>
-            <p className="text-sm text-gray-500 mb-1">
-              <strong>Date:</strong> {date}
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              <strong className="text-gray-700 dark:text-gray-300">Date:</strong> {date}
             </p>
-            <p className="text-sm text-gray-500 mb-4">
-              <strong>Location:</strong> {location}
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <strong className="text-gray-700 dark:text-gray-300">Location:</strong> {location}
             </p>
-            <p className="text-gray-700">{description}</p>
+            <p className="text-gray-700 dark:text-gray-300">{description}</p>
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

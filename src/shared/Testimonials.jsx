@@ -1,20 +1,23 @@
 import React from "react";
+import { FaStar, FaQuoteLeft } from "react-icons/fa";
 
 const testimonials = [
   {
     name: "Sarah Ahmed",
     role: "Artist & Group Organizer",
     comment:
-      "Circle has completely transformed the way I connect with like-minded people. Organizing art meetups has never been this easy!",
+      "HobbyHub has completely transformed the way I connect with like-minded people. Organizing art meetups has never been this easy!",
     image:
       "https://i.ibb.co/ZRG9YZNM/matheus-ferrero-W7b3e-DUb-2-I-unsplash.jpg",
+    rating: 5,
   },
   {
     name: "Jara Hossain",
     role: "Photography Enthusiast",
     comment:
-      "Thanks to Circle, I joined multiple local photography events and made so many friends! It's a great community platform.",
+      "Thanks to HobbyHub, I joined multiple local photography events and made so many friends! It's a great community platform.",
     image: "https://i.ibb.co/wrZ4yYfK/singing.jpg",
+    rating: 5,
   },
   {
     name: "Nusrat Jahan",
@@ -23,40 +26,81 @@ const testimonials = [
       "The experience of finding and joining book clubs through this platform is seamless and enjoyable. Highly recommended!",
     image:
       "https://i.ibb.co/rKHXMDCn/nathan-mullet-L922-Dy3-Iz-LA-unsplash.jpg",
+    rating: 5,
   },
 ];
 
 const Testimonials = () => {
   return (
-    <section className="py-12">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4  text-gray-800">
-          What Our Members Say
-        </h2>
-        <p className="text-center text-gray-600 mb-10 max-w-xl mx-auto">
-          Discover what real users think about Circle. Join thousands who found
-          joy through shared hobbies and community events!
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-white dark:from-gray-800 to-[#F5FAFF] dark:to-gray-900">
+      <div className="w-11/12 mx-auto">
+        <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#27548A] dark:text-blue-400 mb-4">
+            What Our Members Say
+          </h2>
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Discover what real users think about HobbyHub. Join thousands who found
+            joy through shared hobbies and community events!
+          </p>
+        </div>
+
+        {/* Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {testimonials.map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition"
+              className="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group relative overflow-hidden"
             >
-              <div className="flex items-center  mb-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-16 h-16 rounded-full object-cover  mr-4"
-                />
-                <div className="text-[#27548A]">
-                  <h4 className="text-lg font-semibold">{item.name}</h4>
-                  <p className="text-sm text-gray-600">{item.role}</p>
+              {/* Quote Icon Background */}
+              <div className="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <FaQuoteLeft size={80} className="text-[#27548A] dark:text-blue-400" />
+              </div>
+
+              {/* Quote Icon */}
+              <div className="mb-4 relative z-10">
+                <div className="inline-block bg-[#27548A]/10 dark:bg-blue-500/20 rounded-full p-3 group-hover:bg-[#27548A]/20 dark:group-hover:bg-blue-500/30 transition-colors">
+                  <FaQuoteLeft size={20} className="text-[#27548A] dark:text-blue-400" />
                 </div>
               </div>
-              <p className="text-gray-700 text-sm">{item.comment}</p>
+
+              {/* Rating Stars */}
+              <div className="flex gap-1 mb-4 relative z-10">
+                {[...Array(item.rating)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    className="text-yellow-400 dark:text-yellow-500 fill-current"
+                    size={18}
+                  />
+                ))}
+              </div>
+
+              {/* Testimonial Text */}
+              <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6 relative z-10">
+                "{item.comment}"
+              </p>
+
+              {/* Author Info */}
+              <div className="flex items-center gap-4 relative z-10 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="relative">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-14 h-14 rounded-full object-cover border-2 border-[#27548A]/20 dark:border-blue-500/30 group-hover:border-[#27548A] dark:group-hover:border-blue-500 transition-colors"
+                  />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#27548A]/20 dark:from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
+                    {item.name}
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{item.role}</p>
+                </div>
+              </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </section>

@@ -39,30 +39,31 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <section className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-11/12 mx-auto">
+        <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 sm:text-4xl">
             Contact Us
           </h1>
-          <p className="mt-3 text-xl text-gray-500">
+          <p className="mt-3 text-xl text-gray-500 dark:text-gray-400">
             Have questions? We'd love to hear from you.
           </p>
         </div>
 
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
           <div className="p-6 sm:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Contact Information */}
               <div>
-                <h2 className="text-lg font-medium text-gray-900">
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                   Contact Information
                 </h2>
                 <div className="mt-6 space-y-4">
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-gray-400 dark:text-gray-500"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -75,14 +76,14 @@ const Contact = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-base text-gray-500">
+                    <p className="ml-3 text-base text-gray-500 dark:text-gray-400">
                       rakibhossen.dev@gmail.com
                     </p>
                   </div>
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-gray-400 dark:text-gray-500"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -95,14 +96,14 @@ const Contact = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-base text-gray-500">
+                    <p className="ml-3 text-base text-gray-500 dark:text-gray-400">
                       +8801300981501
                     </p>
                   </div>
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-gray-400 dark:text-gray-500"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -121,7 +122,7 @@ const Contact = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-base text-gray-500">
+                    <p className="ml-3 text-base text-gray-500 dark:text-gray-400">
                      81/A Shomak Kallan road
                       <br />
                     Dhaka,Bangladesh
@@ -136,7 +137,7 @@ const Contact = () => {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium text-gray-700"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Name:
                     </label>
@@ -148,7 +149,7 @@ const Contact = () => {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        className="py-3 px-4 block w-full shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -156,7 +157,7 @@ const Contact = () => {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm font-medium text-gray-700"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Email:
                     </label>
@@ -168,7 +169,7 @@ const Contact = () => {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        className="py-3 px-4 block w-full shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -176,7 +177,7 @@ const Contact = () => {
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-gray-700"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Message:
                     </label>
@@ -188,7 +189,7 @@ const Contact = () => {
                         required
                         value={formData.message}
                         onChange={handleChange}
-                        className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        className="py-3 px-4 block w-full shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -197,8 +198,8 @@ const Contact = () => {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                        isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                      className={`w-full flex justify-center items-center py-3 text-base ${
+                        isSubmitting ? "opacity-70 cursor-not-allowed hover:bg-[#27548A] hover:shadow-none active:scale-100" : ""
                       }`}
                     >
                       {isSubmitting ? (
@@ -235,8 +236,8 @@ const Contact = () => {
                     <div
                       className={`p-3 rounded-md ${
                         submitMessage.includes("error")
-                          ? "bg-red-50 text-red-700"
-                          : "bg-green-50 text-green-700"
+                          ? "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
+                          : "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
                       }`}
                     >
                       {submitMessage}
@@ -247,8 +248,9 @@ const Contact = () => {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

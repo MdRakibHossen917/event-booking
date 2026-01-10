@@ -342,13 +342,13 @@ const MyGroup = () => {
               <button
                 type="button"
                 onClick={() => setEditingGroup(null)}
-                className="btn btn-outline"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-200 hover:shadow-md active:scale-95"
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
+              <Button type="submit" className="px-6 py-2">
                 Update
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -412,8 +412,8 @@ const GroupCard = ({
       <div className="mt-auto flex flex-col gap-2 pt-1">
         <Button
           onClick={() => handleEditClick(group)}
-          className={`btn btn-sm btn-primary w-full ${
-            isJoinedButNotCreator ? "btn-disabled" : ""
+          className={`btn-sm w-full py-2 text-sm ${
+            isJoinedButNotCreator ? "opacity-50 cursor-not-allowed hover:bg-[#27548A] hover:shadow-none active:scale-100" : ""
           }`}
           disabled={isJoinedButNotCreator}
           title={
@@ -426,7 +426,7 @@ const GroupCard = ({
         </Button>
         <button
           onClick={handleDelete}
-          className="btn btn-sm btn-error text-white w-full"
+          className="btn-sm w-full py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           title={isCreator ? "" : "Leave this group"}
         >
           {isCreator ? "Delete" : "Leave"}
