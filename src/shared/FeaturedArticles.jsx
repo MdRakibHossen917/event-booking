@@ -55,8 +55,8 @@ const FeaturedArticles = () => {
 
   return (
     <section className="py-12 bg-white dark:bg-gray-900">
-      <div className="w-11/12 mx-auto">
-        <div className="text-center mb-12">
+      <div className="w-11/12 mx-auto max-w-7xl">
+        <div className="text-center mb-6 md:mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Latest Articles
           </h2>
@@ -65,13 +65,13 @@ const FeaturedArticles = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {articles.map((article) => {
             const category = article.category || "General";
             return (
               <article
                 key={article._id}
-                className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-2"
+                className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-2 w-full"
               >
                 {/* Featured Image */}
                 <div className="relative h-56 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">

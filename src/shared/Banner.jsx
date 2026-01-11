@@ -5,10 +5,10 @@ import Button from "./Button";
 
 const Banner = () => {
   return (
-    <section className="-mt-15 bg-[#F5FAFF] dark:bg-gray-900 py-20 px-6">
+    <section className="-mt-15 bg-[#F5FAFF] dark:bg-gray-900 py-20   md:px-6">
       <div className="w-11/12 mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10">
         {/* Left Text Section */}
-        <div className="flex-1 text-center md:text-left space-y-6">
+        <div className="flex-1 text-center md:text-left space-y-3  md:space-y-6">
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

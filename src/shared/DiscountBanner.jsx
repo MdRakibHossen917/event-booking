@@ -62,7 +62,7 @@ const DiscountBanner = () => {
   return (
     <section className="my-16">
       <div className="w-11/12 mx-auto px-4">
-        <div className="relative bg-gradient-to-br from-[#27548A] via-[#497da4] to-[#1e3d6b] rounded-3xl shadow-2xl overflow-hidden">
+        <div className="relative bg-gradient-to-br from-[#27548A] via-[#497da4] to-[#1e3d6b] rounded-2xl shadow-2xl overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -71,28 +71,28 @@ const DiscountBanner = () => {
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-0">
           {/* Left Side - Counter Display */}
-          <div className="p-8 md:p-10 lg:p-12 text-white flex flex-col justify-center relative z-10">
+          <div className="p-5 md:p-10 lg:p-12 text-white flex flex-col justify-center relative z-10">
             {/* Badge */}
-            <div className="inline-block mb-4">
+            <div className="inline-block mb-4 text-center">
               <span className="bg-yellow-400 text-[#27548A] px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wide">
                 Limited Offer
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-extrabold mb-2 leading-tight">
               Lifetime Membership{" "}
               <span className="text-yellow-300 block mt-2">FREE for First 100 Users!</span>
             </h2>
             
-            <p className="text-base sm:text-lg text-blue-50 mb-8 leading-relaxed max-w-lg">
+            <p className="text-base sm:text-lg text-blue-50 mb-6 leading-relaxed max-w-lg">
               Be among the first 100 users to join HobbyHub and enjoy lifetime access
               to all exclusive hobby groups and events – absolutely free!
             </p>
 
             {/* Counter Display Card */}
-            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 md:p-8 mb-8 border-2 border-white/20 shadow-xl">
+            <div className="bg-white/5 backdrop-blur-md rounded-xl p-2 md:p-8 mb-8 border-2 border-white/20 shadow-xl">
               <div className="text-center">
-                <p className="text-sm uppercase tracking-wider text-blue-200 mb-4 font-semibold">
+                <p className="text-sm uppercase tracking-wider text-blue-200 mb-2 font-semibold">
                   👥 Total Users Joined
                 </p>
                 
@@ -103,7 +103,7 @@ const DiscountBanner = () => {
                 ) : (
                   <>
                     <div className="flex items-baseline justify-center gap-3 mb-6">
-                      <div className="text-6xl md:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl tracking-tight">
+                      <div className="text-3xl md:text-4xl font-black text-white drop-shadow-2xl tracking-tight">
                         {displayCount.toString().padStart(3, '0')}
                       </div>
                       <span className="text-3xl md:text-4xl font-bold text-blue-200">/ 100</span>
@@ -111,12 +111,12 @@ const DiscountBanner = () => {
 
                     {/* Progress Bar */}
                     <div className="mb-4">
-                      <div className="w-full bg-white/25 rounded-full h-6 overflow-hidden shadow-inner">
+                      <div className="w-full bg-white/25 rounded-full h-5 overflow-hidden shadow-inner">
                         <div
                           className="bg-gradient-to-r from-yellow-300 to-yellow-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end pr-3 shadow-lg"
                           style={{ width: `${percentage}%` }}
                         >
-                          <span className="text-xs font-bold text-[#27548A]">
+                          <span className="hidden lg:inline text-xs font-bold text-[#27548A]">
                             {Math.round(percentage)}%
                           </span>
                         </div>
@@ -142,7 +142,7 @@ const DiscountBanner = () => {
           </div>
 
           {/* Right Side - Counter Image */}
-          <div className="relative h-[400px] lg:h-auto overflow-hidden lg:min-h-[600px] bg-white">
+          <div className="hidden lg:block relative h-[400px] lg:h-auto overflow-hidden lg:min-h-[600px] bg-white">
             <img
               src={counterImage}
               alt="Membership Counter"

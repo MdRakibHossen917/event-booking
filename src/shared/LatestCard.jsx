@@ -10,6 +10,7 @@ const LatestCard = () => {
   const [groups, setGroups] = useState([]);
   const [joinedGroups, setJoinedGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = React.useRef(null);
 
   useEffect(() => {
     fetch("https://event-booking-server-wheat.vercel.app/groups")
@@ -90,10 +91,10 @@ const LatestCard = () => {
   );
 
   return (
-    <section className="py-12 bg-white dark:bg-gray-900">
+    <section className="py-8 md:py-16 bg-white dark:bg-gray-900">
       <div className="w-11/12 mx-auto">
         <div className="text-center mx-auto max-w-3xl px-4 mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold -mt-12 text-gray-800 dark:text-gray-100 mb-4">
+        <h2 className="text-3xl md:text-5xl font-bold -mt-12 text-gray-800 dark:text-gray-100 mb-2 md:mb-4">
           <span className="text-[#27548A] dark:text-blue-400">Explore</span> Recent Events
         </h2>
         <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
@@ -103,8 +104,15 @@ const LatestCard = () => {
         </p>
       </div>
 
-      <div className="px-4 mb-8 overflow-hidden">
-        <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 snap-x snap-mandatory">
+      <div className="px-5   mb-4 md:mb-8 overflow-hidden md:px-12 -mx-[4.5%] md:mx-0">
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-3 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory md:-mx-4 md:px-4"
+          style={{
+            paddingLeft: 'calc((100vw - 320px) / 2)',
+            paddingRight: 'calc((100vw - 320px) / 2)',
+          }}
+        >
           {groups.map((group) => {
             const alreadyJoined = joinedGroups.includes(group._id.toString());
             return (
@@ -119,7 +127,30 @@ const LatestCard = () => {
                     alt={group.groupName}
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* 50% Top Section Overlay */}
+                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-black/10 to-transparent"></div>
+                  
+                   {/* 50% Bottom Section with Join Button */}
+                   <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/60 via-black/40 to-transparent flex items-center justify-end pb-44 pr-0">
+                     <Button
+                       onClick={(e) => {
+                         e.preventDefault();
+                         handleJoinGroup(group);
+                       }}
+                       className={`px-4 py-2 text-sm font-semibold rounded-lg  transition-all duration-300 ${
+                         alreadyJoined
+                           ? "bg-gray-300/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+                           : "bg-[#27548A] hover:bg-[#1e3d6b] text-white hover:scale-105"
+                       }`}
+                       disabled={alreadyJoined}
+                     >
+                       {alreadyJoined ? "✓ Joined" : "Join Now"}
+                     </Button>
+                   </div>
+                  
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </div>
 
                 {/* Content */}
@@ -128,12 +159,12 @@ const LatestCard = () => {
                     {group.groupName}
                   </h3>
                   
-                  <p className="flex text-gray-700 dark:text-gray-300 font-medium items-center mb-3 text-sm">
+                  <p className="flex text-gray-700 dark:text-gray-300 font-medium items-center mb-1 md:mb-3 text-sm">
                     <IoLocationOutline size={18} className="text-[#27548A] dark:text-blue-400 mr-2 flex-shrink-0" />
                     <span className="truncate">{group.location}</span>
                   </p>
                   
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-5 line-clamp-2 flex-grow">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1 md:mb-4 line-clamp-2 flex-grow">
                     {group.description?.split(" ").slice(0, 12).join(" ")}...
                   </p>
 
@@ -144,17 +175,6 @@ const LatestCard = () => {
                         View Details
                       </Button>
                     </Link>
-                    <Button
-                      onClick={() => handleJoinGroup(group)}
-                      className={`w-full py-2.5 text-sm ${
-                        alreadyJoined
-                          ? "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed hover:bg-gray-200 hover:shadow-none active:scale-100"
-                          : "bg-[#F5FAFF] dark:bg-gray-700 hover:bg-[#27548A] text-[#27548A] dark:text-blue-400 hover:text-white border-2 border-[#27548A] dark:border-blue-400 hover:border-[#27548A]"
-                      }`}
-                      disabled={alreadyJoined}
-                    >
-                      {alreadyJoined ? "✓ Joined" : "Join Now"}
-                    </Button>
                   </div>
                 </div>
               </div>

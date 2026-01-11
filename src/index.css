@@ -46,3 +46,24 @@ a.active {
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cupcake, aqua;
 }
+
+/* Swiper Testimonials Custom Styles */
+.swiper-pagination-bullet {
+  background-color: #27548A !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background-color: #27548A !important;
+}
+
+.dark .swiper-pagination-bullet {
+  background-color: #60A5FA !important;
+  opacity: 0.5 !important;
+}
+
+.dark .swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background-color: #60A5FA !important;
+}

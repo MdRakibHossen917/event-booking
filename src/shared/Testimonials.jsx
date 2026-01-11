@@ -1,5 +1,9 @@
 import React from "react";
 import { FaStar, FaQuoteLeft } from "react-icons/fa";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const testimonials = [
   {
@@ -28,16 +32,78 @@ const testimonials = [
       "https://i.ibb.co/rKHXMDCn/nathan-mullet-L922-Dy3-Iz-LA-unsplash.jpg",
     rating: 5,
   },
+  {
+    name: "Nusrat Jahan",
+    role: "Book Club Member",
+    comment:
+      "The experience of finding and joining book clubs through this platform is seamless and enjoyable. Highly recommended!",
+    image:
+      "https://i.ibb.co/rKHXMDCn/nathan-mullet-L922-Dy3-Iz-LA-unsplash.jpg",
+    rating: 5,
+  },
 ];
+
+// Testimonial Card Component
+const TestimonialCard = ({ item }) => {
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group relative overflow-hidden h-full">
+      {/* Quote Icon Background */}
+      <div className="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+        <FaQuoteLeft size={80} className="text-[#27548A] dark:text-blue-400" />
+      </div>
+
+      {/* Quote Icon */}
+      <div className="mb-4 relative z-10">
+        <div className="inline-block bg-[#27548A]/10 dark:bg-blue-500/20 rounded-full p-3 group-hover:bg-[#27548A]/20 dark:group-hover:bg-blue-500/30 transition-colors">
+          <FaQuoteLeft size={20} className="text-[#27548A] dark:text-blue-400" />
+        </div>
+      </div>
+
+      {/* Rating Stars */}
+      <div className="flex gap-1 mb-4 relative z-10">
+        {[...Array(item.rating)].map((_, i) => (
+          <FaStar
+            key={i}
+            className="text-yellow-400 dark:text-yellow-500 fill-current"
+            size={18}
+          />
+        ))}
+      </div>
+
+      {/* Testimonial Text */}
+      <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6 relative z-10">
+        "{item.comment}"
+      </p>
+
+      {/* Author Info */}
+      <div className="flex items-center gap-4 relative z-10 pt-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="relative">
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-14 h-14 rounded-full object-cover border-2 border-[#27548A]/20 dark:border-blue-500/30 group-hover:border-[#27548A] dark:group-hover:border-blue-500 transition-colors"
+          />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#27548A]/20 dark:from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <div>
+          <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
+            {item.name}
+          </h4>
+          <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{item.role}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Testimonials = () => {
   return (
-    <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-white dark:from-gray-800 to-[#F5FAFF] dark:to-gray-900">
+    <section className="py-8 md:py-16  px-4 bg-gradient-to-b from-white dark:from-gray-800 to-[#F5FAFF] dark:to-gray-900">
       <div className="w-11/12 mx-auto">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#27548A] dark:text-blue-400 mb-4">
+        <div className="text-center mb-6 md:mb-12">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-[#27548A] dark:text-blue-400 mb-2 md:mb-4">
             What Our Members Say
           </h2>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
@@ -46,59 +112,36 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        {/* Testimonials - Mobile Carousel / Desktop Grid */}
+        {/* Mobile Carousel */}
+        <div className="md:hidden relative">
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={24}
+            slidesPerView={1}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            className="!pb-12"
+          >
+            {testimonials.map((item, idx) => (
+              <SwiperSlide key={idx}>
+                <TestimonialCard item={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-6">
           {testimonials.map((item, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group relative overflow-hidden"
-            >
-              {/* Quote Icon Background */}
-              <div className="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <FaQuoteLeft size={80} className="text-[#27548A] dark:text-blue-400" />
-              </div>
-
-              {/* Quote Icon */}
-              <div className="mb-4 relative z-10">
-                <div className="inline-block bg-[#27548A]/10 dark:bg-blue-500/20 rounded-full p-3 group-hover:bg-[#27548A]/20 dark:group-hover:bg-blue-500/30 transition-colors">
-                  <FaQuoteLeft size={20} className="text-[#27548A] dark:text-blue-400" />
-                </div>
-              </div>
-
-              {/* Rating Stars */}
-              <div className="flex gap-1 mb-4 relative z-10">
-                {[...Array(item.rating)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    className="text-yellow-400 dark:text-yellow-500 fill-current"
-                    size={18}
-                  />
-                ))}
-              </div>
-
-              {/* Testimonial Text */}
-              <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6 relative z-10">
-                "{item.comment}"
-              </p>
-
-              {/* Author Info */}
-              <div className="flex items-center gap-4 relative z-10 pt-4 border-t border-gray-100 dark:border-gray-700">
-                <div className="relative">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-[#27548A]/20 dark:border-blue-500/30 group-hover:border-[#27548A] dark:group-hover:border-blue-500 transition-colors"
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#27548A]/20 dark:from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
-                    {item.name}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{item.role}</p>
-                </div>
-              </div>
-            </div>
+            <TestimonialCard key={idx} item={item} />
           ))}
         </div>
         </div>
