@@ -61,7 +61,7 @@ const UpdateGroup = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/myGroups");
+        navigate("/myGroup");
       })
       .catch((err) => {
         console.error(err);
@@ -69,8 +69,27 @@ const UpdateGroup = () => {
       });
   };
 
-  if (loading) return <p>Loading group details...</p>;
-  if (!groupData) return <p>No group data found.</p>;
+  if (loading) return (
+    <section className="py-12 bg-white dark:bg-gray-900 min-h-[60vh] flex items-center justify-center">
+      <div className="w-11/12 mx-auto">
+        <div className="flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#27548A] border-t-transparent dark:border-blue-400 dark:border-t-transparent mb-4"></div>
+            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">Loading group details...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+  if (!groupData) return (
+    <section className="py-12 bg-white dark:bg-gray-900 min-h-[60vh] flex items-center justify-center">
+      <div className="w-11/12 mx-auto">
+        <div className="text-center">
+          <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">No group data found.</p>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow mt-10">

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from 'react-helmet-async';
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
@@ -73,10 +74,25 @@ const AllGroups = () => {
       });
   };
 
-  if (loading) return <p className="text-center text-gray-600 dark:text-gray-400">Loading Events...</p>;
+  if (loading) return (
+    <section className="py-12 bg-white dark:bg-gray-900 min-h-[60vh] flex items-center justify-center">
+      <div className="w-11/12 mx-auto">
+        <div className="flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#27548A] border-t-transparent dark:border-blue-400 dark:border-t-transparent mb-4"></div>
+            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">Loading Events...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
-    <section className="py-12 bg-white dark:bg-gray-900">
+    <>
+      <Helmet>
+        <title>HobbyHub | All Groups</title>
+      </Helmet>
+      <section className="py-12 bg-white dark:bg-gray-900">
       <div className="w-11/12 mx-auto">
         <h2 className="text-2xl sm:text-3xl md:text-4xl text-[#27548A] dark:text-blue-400 text-center font-bold mb-4 mt-6 px-4 md:px-10 lg:px-16">
           All of Events
@@ -167,6 +183,7 @@ const AllGroups = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

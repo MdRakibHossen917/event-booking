@@ -1,10 +1,15 @@
 import React from "react";
+import { Helmet } from 'react-helmet-async';
 import CreateGroupForm from "./CreateGroupForm";
 
 
 const CreateGroup = () => {
   return (
-    <div className="max-w-4xl mx-auto   bg-white shadow-md rounded">
+    <>
+      <Helmet>
+        <title>HobbyHub | Create Group</title>
+      </Helmet>
+      <div className="max-w-4xl mx-auto   bg-white shadow-md rounded">
       <h2 className="text-3xl font-bold   text-center text-gray-800">
         Create New Event
       </h2>
@@ -15,6 +20,7 @@ const CreateGroup = () => {
 
       <CreateGroupForm />
     </div>
+    </>
   );
 };
 

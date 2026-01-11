@@ -76,7 +76,18 @@ const LatestCard = () => {
       });
   };
 
-  if (loading) return <p className="text-center text-gray-600 dark:text-gray-400">Loading latest events...</p>;
+  if (loading) return (
+    <section className="py-12 bg-white dark:bg-gray-900">
+      <div className="w-11/12 mx-auto">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#27548A] border-t-transparent dark:border-blue-400 dark:border-t-transparent mb-4"></div>
+            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">Loading latest events...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <section className="py-12 bg-white dark:bg-gray-900">
@@ -127,7 +138,7 @@ const LatestCard = () => {
                   </p>
 
                   {/* Buttons */}
-                  <div className="mt-auto space-y-2 pt-2">
+                  <div className="mt-auto flex flex-col gap-1 pt-2">
                     <Link to={`/group/${group._id}`}>
                       <Button className="w-full py-2.5 text-sm">
                         View Details

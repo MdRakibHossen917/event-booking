@@ -16,7 +16,6 @@ const Register = () => {
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
-    const photoURL = form.photoURL.value;
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
 
@@ -57,7 +56,6 @@ const Register = () => {
         const user = userCredential.user;
         updateProfile(user, {
           displayName: name,
-          photoURL: photoURL,
         })
           .then(() => {
             // alert("User registered successfully!");
@@ -82,8 +80,8 @@ const Register = () => {
   };
 
   return (
-    <div className="  flex items-center justify-center    px-4">
-      <div className="max-w-5xl w-full grid md:grid-cols-2 items-center gap-8 rounded-lg     ">
+    <div className="w-full flex items-center justify-center px-4 py-8">
+      <div className="max-w-5xl w-full grid md:grid-cols-2 items-center gap-8 rounded-lg">
         {/* Left Illustration */}
         <div className="hidden md:block">
           <img src={SignUpIcon} alt="Sign Up Illustration" className="w-full" />
@@ -130,18 +128,6 @@ const Register = () => {
                 required
                 className="input input-bordered w-full"
                 placeholder="example@gmail.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="photoURL" className="block text-sm">
-                Photo URL
-              </label>
-              <input
-                type="text"
-                name="photoURL"
-                className="input input-bordered w-full"
-                placeholder="https://..."
               />
             </div>
 

@@ -14,6 +14,11 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../Dashboard/DashboardHome";
 import JoinedGroups from "../Dashboard/JoinedGroups";
 import MyCreatedGroups from "../Dashboard/MyCreatedGroups";
+import MyEvents from "../Dashboard/MyEvents";
+import Profile from "../Dashboard/Profile";
+import CreateArticle from "../Dashboard/CreateArticle";
+import Articles from "../pages/Articles/Articles";
+import ArticleDetails from "../pages/Articles/ArticleDetails";
 import GroupDetails from "../pages/AllGroups/GroupDetails";
 import ComingSoon from "../shared/ComingSoon";
 import Error from "../pages/Error/Error";
@@ -75,6 +80,14 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
       {
+        path: "/articles",
+        element: <Articles />,
+      },
+      {
+        path: "/articles/:id",
+        element: <ArticleDetails />,
+      },
+      {
         path: "/come",
         element: <ComingSoon />,
       },
@@ -103,20 +116,41 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
+    errorElement: <Error />,
     children: [
+      {
+        index: true,
+        element: <DashboardHome />,
+      },
       {
         path: "home",
         element: <DashboardHome />,
       },
       {
         path: "myCreatedGroups",
-        element: <MyCreatedGroups />,
+        element: <MyEvents />,
       },
       {
         path: "joined-groups",
-        element: <JoinedGroups />,
+        element: <MyEvents />,
+      },
+      {
+        path: "myEvents",
+        element: <MyEvents />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "create-article",
+        element: <CreateArticle />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Error />,
   },
 
   {

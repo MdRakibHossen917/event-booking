@@ -76,8 +76,8 @@ const Login = () => {
   };
 
   return (
-    <div className="     flex items-center justify-center px-4">
-      <div className="max-w-5xl w-full grid md:grid-cols-2 items-center gap-8 rounded-lg  p-8  ">
+    <div className="w-full flex items-center justify-center px-4 py-8">
+      <div className="max-w-5xl w-full grid md:grid-cols-2 items-center gap-8 rounded-lg p-8">
         {/* Left Illustration */}
         <div className="hidden md:block">
           <img src={SinInIcon} alt="Login Illustration" className="w-full" />

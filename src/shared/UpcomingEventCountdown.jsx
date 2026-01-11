@@ -59,7 +59,7 @@ const UpcomingEventCountdown = () => {
             <img
               src={creativeImage}
               alt="Creative Events"
-              className="w-full h-full min-h-[400px] object-cover lg:h-full"
+              className="w-full h-full min-h-[200px] sm:min-h-[220px] md:min-h-[240px] object-cover lg:h-full lg:min-h-[200px]"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#27548A]/20 to-transparent lg:hidden"></div>
           </div>
@@ -76,12 +76,17 @@ const UpcomingEventCountdown = () => {
             </div>
 
             {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="text-gray-500 dark:text-gray-400">Loading events...</div>
+              <div className="flex items-center justify-center py-12 min-h-[300px]">
+                <div className="text-center">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#27548A] border-t-transparent dark:border-blue-400 dark:border-t-transparent mb-3"></div>
+                  <p className="text-base font-semibold text-gray-600 dark:text-gray-400">Loading events...</p>
+                </div>
               </div>
             ) : upcomingEvents.length === 0 ? (
-              <div className="flex items-center justify-center py-12">
-                <p className="text-gray-500 dark:text-gray-400">No upcoming events at the moment.</p>
+              <div className="flex items-center justify-center py-12 min-h-[300px]">
+                <div className="text-center">
+                  <p className="text-base font-semibold text-gray-500 dark:text-gray-400">No upcoming events at the moment.</p>
+                </div>
               </div>
             ) : (
               <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
@@ -125,10 +130,7 @@ const UpcomingEventCountdown = () => {
                           )}
                         </div>
 
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                          {event.description?.split(" ").slice(0, 15).join(" ")}
-                          {event.description?.split(" ").length > 15 ? "..." : ""}
-                        </p>
+                        
 
                         <Link to={`/group/${event._id}`}>
                           <Button className="w-full sm:w-auto px-4 py-2 text-sm">

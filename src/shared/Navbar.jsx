@@ -27,14 +27,6 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
-          to="/"
-          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
           to="/createGroup"
           className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
         >
@@ -52,7 +44,7 @@ const Navbar = () => {
 
       <li>
         <NavLink
-          to="/AllGroups"
+          to="/allGroups"
           className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
         >
           AllGroups
@@ -64,6 +56,14 @@ const Navbar = () => {
           className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
         >
           AboutUs
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/articles"
+          className={`flex items-center font-semibold gap-1 ${isScrolled ? 'text-white dark:text-white' : 'text-white dark:text-gray-100'}`}
+        >
+          Articles
         </NavLink>
       </li>
 

@@ -6,17 +6,66 @@ const GroupDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [group, setGroup] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(` https://event-booking-server-wheat.vercel.app/groups`)
-      .then((res) => res.json())
+    setLoading(true);
+    setError(null);
+    fetch(`https://event-booking-server-wheat.vercel.app/groups`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch groups");
+        return res.json();
+      })
       .then((data) => {
         const selected = data.find((item) => item._id === id);
-        setGroup(selected);
+        if (!selected) {
+          setError("Group not found");
+        } else {
+          setGroup(selected);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching group:", err);
+        setError("Failed to load group details");
+        setLoading(false);
       });
   }, [id]);
 
-  if (!group) return <p className="text-center text-gray-600 dark:text-gray-400">Loading group details...</p>;
+  if (loading) return (
+    <section className="py-12 bg-white dark:bg-gray-900 min-h-[60vh] flex items-center justify-center">
+      <div className="w-11/12 mx-auto">
+        <div className="flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#27548A] border-t-transparent dark:border-blue-400 dark:border-t-transparent mb-4"></div>
+            <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">Loading group details...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  if (error || !group) return (
+    <section className="py-12 bg-white dark:bg-gray-900 min-h-[60vh] flex items-center justify-center">
+      <div className="w-11/12 mx-auto">
+        <div className="flex items-center justify-center">
+          <div className="text-center max-w-md">
+            <h2 className="text-3xl font-bold text-red-500 dark:text-red-400 mb-4">Group Not Found</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+              {error || "The group you're looking for doesn't exist or has been removed."}
+            </p>
+            <Button
+              onClick={() => navigate(-1)}
+              className="px-6 py-2.5 text-base"
+            >
+              ← Go Back
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <section className="py-12 bg-white dark:bg-gray-900">
