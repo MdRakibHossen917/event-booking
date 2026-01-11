@@ -104,7 +104,7 @@ const LatestCard = () => {
         </p>
       </div>
 
-      <div className="px-5   mb-4 md:mb-8 overflow-hidden md:px-12 -mx-[4.5%] md:mx-0">
+      <div className="px-5   mb-4 md:mb-8 overflow-hidden md:px-10 -mx-[4.5%] md:mx-0">
         <div 
           ref={scrollContainerRef}
           className="flex gap-3 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory md:-mx-4 md:px-4"

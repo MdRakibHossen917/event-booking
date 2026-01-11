@@ -7,6 +7,7 @@ import Testimonials from '../../shared/Testimonials';
 import DiscountBanner from '../../shared/DiscountBanner';
 import UpcomingEventCountdown from '../../shared/UpcomingEventCountdown';
 import FeaturedArticles from '../../shared/FeaturedArticles';
+import FAQ from '../../shared/FAQ';
 
 const Home = () => {
     return (
@@ -22,6 +23,7 @@ const Home = () => {
             <FeaturedArticles></FeaturedArticles>
             <HowItWorks></HowItWorks>
             <Testimonials></Testimonials>
+            <FAQ></FAQ>
         </div>
         </>
     );
