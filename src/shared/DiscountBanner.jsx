@@ -60,9 +60,9 @@ const DiscountBanner = () => {
   const percentage = Math.min(100, (userCount / targetCount) * 100);
 
   return (
-    <section className="my-16">
-      <div className="w-11/12 mx-auto px-4">
-        <div className="relative bg-gradient-to-br from-[#27548A] via-[#497da4] to-[#1e3d6b] rounded-2xl shadow-2xl overflow-hidden">
+    <section className="py-12 md:py-20">
+      <div className="w-11/12 mx-auto max-w-7xl px-4">
+        <div className="relative bg-gradient-to-br from-[#27548A] via-[#497da4] to-[#1e3d6b] rounded-3xl shadow-2xl overflow-hidden border border-[#27548A]/20">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>

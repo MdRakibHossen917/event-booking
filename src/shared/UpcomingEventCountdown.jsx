@@ -104,9 +104,9 @@ const UpcomingEventCountdown = () => {
   };
 
   return (
-    <section className="my-12">
-      <div className="w-11/12 mx-auto px-4">
-        <div className="bg-gradient-to-br from-[#F5FAFF] dark:from-gray-800 to-white dark:to-gray-900 rounded-2xl overflow-hidden">
+    <section className="py-12 md:py-20">
+      <div className="w-11/12 mx-auto max-w-7xl px-4">
+        <div className="bg-gradient-to-br from-[#F5FAFF] dark:from-gray-800 to-white dark:to-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
           {/* Left Side - Image */}
           <div className="relative overflow-hidden">

@@ -44,11 +44,17 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-8 md:py-24 bg-gradient-to-b from-white dark:from-gray-900 to-[#F5FAFF] dark:to-gray-900">
-      <div className="w-11/12 mx-auto px-4">
+    <section className="py-12 md:py-24 bg-gradient-to-b from-white dark:from-gray-900 to-[#F5FAFF] dark:to-gray-900 relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-[#27548A] rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-[#27548A] rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="relative w-11/12 mx-auto max-w-7xl px-4">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 md:mb-16">
  
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-[#27548A] dark:text-blue-400 mb-2 md:mb-4">
               Frequently Asked Questions
@@ -59,15 +65,15 @@ const FAQ = () => {
           </div>
 
           {/* FAQ Items */}
-          <div className="space-y-2 md:space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2 rounded-2xl transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                  className="w-full px-6 md:px-8 py-5 md:py-6 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2 rounded-2xl transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:scale-[1.01]"
                   aria-expanded={openIndex === index}
                 >
                   <h3 className="text-base md:text-xl font-bold text-gray-900 dark:text-white pr-8 flex-1">

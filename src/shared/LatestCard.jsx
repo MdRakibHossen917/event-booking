@@ -91,9 +91,9 @@ const LatestCard = () => {
   );
 
   return (
-    <section className="py-8 md:py-16 bg-white dark:bg-gray-900">
-      <div className="w-11/12 mx-auto">
-        <div className="text-center mx-auto max-w-3xl px-4 mb-12">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-white via-[#F5FAFF]/30 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="w-11/12 mx-auto max-w-7xl">
+        <div className="text-center mx-auto max-w-3xl px-4 mb-12 md:mb-16">
         <h2 className="text-3xl md:text-5xl font-bold -mt-12 text-gray-800 dark:text-gray-100 mb-2 md:mb-4">
           <span className="text-[#27548A] dark:text-blue-400">Explore</span> Recent Events
         </h2>
@@ -118,7 +118,7 @@ const LatestCard = () => {
             return (
               <div
                 key={group._id}
-                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/20 dark:hover:border-blue-500/30 group flex-shrink-0 w-[320px] md:w-[350px] lg:w-[380px] snap-start"
+                className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col h-full border border-gray-200 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/40 group flex-shrink-0 w-[320px] md:w-[350px] lg:w-[380px] snap-start hover:-translate-y-2"
               >
                 {/* Image Container */}
                 <div className="relative overflow-hidden">
@@ -154,24 +154,24 @@ const LatestCard = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
+                <div className="p-6 flex flex-col flex-grow bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-800 dark:to-gray-800/50">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 line-clamp-1 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors duration-300">
                     {group.groupName}
                   </h3>
                   
-                  <p className="flex text-gray-700 dark:text-gray-300 font-medium items-center mb-1 md:mb-3 text-sm">
+                  <p className="flex text-gray-700 dark:text-gray-300 font-medium items-center mb-2 md:mb-4 text-sm">
                     <IoLocationOutline size={18} className="text-[#27548A] dark:text-blue-400 mr-2 flex-shrink-0" />
                     <span className="truncate">{group.location}</span>
                   </p>
                   
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1 md:mb-4 line-clamp-2 flex-grow">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 md:mb-6 line-clamp-2 flex-grow leading-relaxed">
                     {group.description?.split(" ").slice(0, 12).join(" ")}...
                   </p>
 
                   {/* Buttons */}
-                  <div className="mt-auto flex flex-col gap-1 pt-2">
+                  <div className="mt-auto flex flex-col gap-2 pt-2">
                     <Link to={`/group/${group._id}`}>
-                      <Button className="w-full py-2.5 text-sm">
+                      <Button className="w-full py-3 text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300">
                         View Details
                       </Button>
                     </Link>

@@ -15,7 +15,7 @@ const Home = () => {
             <Helmet>
                 <title>HobbyHub | Home</title>
             </Helmet>
-            <div>
+            <div className="overflow-hidden">
             <Banner></Banner>
             <LatestCard></LatestCard>
             <UpcomingEventCountdown></UpcomingEventCountdown>

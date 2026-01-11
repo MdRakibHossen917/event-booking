@@ -54,9 +54,9 @@ const FeaturedArticles = () => {
   }
 
   return (
-    <section className="py-12 bg-white dark:bg-gray-900">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-white via-[#F5FAFF]/20 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="w-11/12 mx-auto max-w-7xl">
-        <div className="text-center mb-6 md:mb-12">
+        <div className="text-center mb-8 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Latest Articles
           </h2>

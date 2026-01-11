@@ -98,11 +98,17 @@ const TestimonialCard = ({ item }) => {
 
 const Testimonials = () => {
   return (
-    <section className="py-8 md:py-16  px-4 bg-gradient-to-b from-white dark:from-gray-800 to-[#F5FAFF] dark:to-gray-900">
-      <div className="w-11/12 mx-auto">
+    <section className="py-12 md:py-24 px-4 bg-gradient-to-b from-white dark:from-gray-800 to-[#F5FAFF] dark:to-gray-900 relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+        <div className="absolute top-1/4 right-0 w-72 h-72 bg-[#27548A] rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-0 w-72 h-72 bg-[#27548A] rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="relative w-11/12 mx-auto max-w-7xl">
         <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-6 md:mb-12">
+        <div className="text-center mb-8 md:mb-16">
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-[#27548A] dark:text-blue-400 mb-2 md:mb-4">
             What Our Members Say
           </h2>
