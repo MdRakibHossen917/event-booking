@@ -16,7 +16,7 @@ import Button from "../../shared/Button";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, signIn, setLoading } = useContext(AuthContext);
+  const { user, signIn, setLoading, resetPassword } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
 
   const from = location.state?.from?.pathname || "/";
@@ -73,6 +73,60 @@ const Login = () => {
           navigate("/auth/register");
         });
       });
+  };
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    
+    Swal.fire({
+      title: "Reset Password",
+      html: `
+        <input id="reset-email" class="swal2-input" placeholder="Enter your email address" type="email" style="width: 100%; padding: 0.625rem; margin-top: 0.5rem;">
+      `,
+      showCancelButton: true,
+      confirmButtonText: "Send Reset Link",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#27548A",
+      preConfirm: () => {
+        const emailInput = document.getElementById('reset-email');
+        const email = emailInput?.value?.trim();
+        if (!email) {
+          Swal.showValidationMessage("Please enter your email address");
+          return false;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          Swal.showValidationMessage("Please enter a valid email address");
+          return false;
+        }
+        return email;
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const email = result.value;
+        resetPassword(email)
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Reset Link Sent!",
+              html: `
+                <p>Password reset link has been sent to <strong>${email}</strong></p>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: #666;">
+                  Please check your email and follow the instructions to reset your password.
+                </p>
+              `,
+              confirmButtonColor: "#27548A",
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: error.message || "Failed to send reset link. Please try again.",
+              confirmButtonColor: "#27548A",
+            });
+          });
+      }
+    });
   };
 
   return (
@@ -139,9 +193,13 @@ const Login = () => {
             </div>
 
             <div className="text-right">
-              <a className="text-sm text-gray-700 dark:text-gray-300 hover:underline cursor-pointer">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-sm text-[#27548A] dark:text-blue-400 hover:underline cursor-pointer font-medium"
+              >
                 Forgot password?
-              </a>
+              </button>
             </div>
 
             <Button type="submit" className="w-full py-3 text-base">

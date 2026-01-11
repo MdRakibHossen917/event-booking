@@ -137,14 +137,6 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end flex items-center gap-2">
-        {/*theme controller */}
-        <div className="mr-1 lg:mr-3">
-          <input
-            type="checkbox"
-            value="dark"
-            className="toggle theme-controller"
-          />
-        </div>
         {user ? (
           <button
             onClick={handleLogout}
