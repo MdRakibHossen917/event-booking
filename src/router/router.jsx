@@ -17,6 +17,7 @@ import MyCreatedGroups from "../Dashboard/MyCreatedGroups";
 import MyEvents from "../Dashboard/MyEvents";
 import Profile from "../Dashboard/Profile";
 import CreateArticle from "../Dashboard/CreateArticle";
+import MyArticles from "../Dashboard/MyArticles";
 import Articles from "../pages/Articles/Articles";
 import ArticleDetails from "../pages/Articles/ArticleDetails";
 import GroupDetails from "../pages/AllGroups/GroupDetails";
@@ -145,6 +146,10 @@ const router = createBrowserRouter([
       {
         path: "create-article",
         element: <CreateArticle />,
+      },
+      {
+        path: "my-articles",
+        element: <MyArticles />,
       },
     ],
   },

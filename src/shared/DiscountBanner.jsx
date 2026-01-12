@@ -151,7 +151,7 @@ const DiscountBanner = () => {
             />
             
             {/* Floating badge on image */}
-            <div className="absolute top-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-2xl z-20 hidden lg:block transform hover:scale-105 transition-transform">
+            <div className="absolute top-6 right-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-2xl z-20 hidden lg:block">
               <div className="text-center">
                 <div className="text-3xl font-black text-[#27548A] dark:text-blue-400 mb-1">
                   {loading ? "..." : displayCount.toString().padStart(3, '0')}

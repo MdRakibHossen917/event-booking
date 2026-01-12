@@ -71,7 +71,7 @@ const FeaturedArticles = () => {
             return (
               <article
                 key={article._id}
-                className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:-translate-y-2 w-full"
+                className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 w-full"
               >
                 {/* Featured Image */}
                 <div className="relative h-56 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
@@ -104,7 +104,7 @@ const FeaturedArticles = () => {
                 {/* Content */}
                 <div className="p-6">
                   {/* Title */}
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:transition-colors hover:text-[#27548A] dark:hover:text-[#27548A]">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
                     {article.title}
                   </h2>
 
@@ -142,13 +142,12 @@ const FeaturedArticles = () => {
                   {/* Read More Button */}
                   <Link
                     to={`/articles/${article._id}`}
-                    className="inline-flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all duration-200 group/btn"
+                    className="inline-flex items-center gap-2 font-semibold text-sm group/btn"
                     style={{ color: "#27548A" }}
                   >
                     Read More
                     <ArrowRight
                       size={16}
-                      className="group-hover/btn:translate-x-1 transition-transform"
                     />
                   </Link>
                 </div>
@@ -161,16 +160,10 @@ const FeaturedArticles = () => {
         <div className="text-center mt-8">
           <Link to="/articles">
             <button
-              className="px-8 py-3 text-lg font-semibold rounded-lg transition-all duration-200 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2"
+              className="px-8 py-3 text-lg font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2"
               style={{
                 backgroundColor: "#27548A",
                 color: "white",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "#1e3d6b";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "#27548A";
               }}
             >
               View All Articles →

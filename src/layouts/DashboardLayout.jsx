@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { NavLink, Outlet, Link } from "react-router";
-import { Menu, X, LayoutDashboard, Calendar, LogOut, Home, User, FileText } from "lucide-react";
+import { Menu, X, LayoutDashboard, Calendar, LogOut, Home, User, FileText, BookOpen } from "lucide-react";
 import { AuthContext } from "../Provider/AuthProvider";
 import Button from "../shared/Button";
 import logo from "../assets/log.png";
@@ -12,8 +12,8 @@ const DashboardLayout = () => {
   const navItems = [
     { path: "/dashboard/home", label: "Dashboard Home", icon: LayoutDashboard },
     { path: "/dashboard/myEvents", label: "My Events", icon: Calendar },
+    { path: "/dashboard/my-articles", label: "My Articles", icon: BookOpen },
     { path: "/dashboard/profile", label: "Profile", icon: User },
-    { path: "/dashboard/create-article", label: "Create Article", icon: FileText },
     { path: "/", label: "Back to Home", icon: Home },
   ];
 

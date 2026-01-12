@@ -77,7 +77,9 @@ const Contact = () => {
                       </svg>
                     </div>
                     <p className="ml-3 text-base text-gray-500 dark:text-gray-400">
-                      rakibhossen.dev@gmail.com
+                      <a href="mailto:mdrakibhossencse@gmail.com" className="hover:text-[#27548A] dark:hover:text-blue-400 transition-colors">
+                        mdrakibhossencse@gmail.com
+                      </a>
                     </p>
                   </div>
                   <div className="flex items-start">

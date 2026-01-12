@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 // Event Card Component
 const EventCard = ({ event, formatDate }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-2 md:p-4  hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group h-full">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-2 md:p-4 border border-gray-100 dark:border-gray-700 group h-full">
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Event Image */}
         <div className="w-full sm:w-24 h-32 sm:h-24 rounded-lg overflow-hidden flex-shrink-0">
@@ -24,7 +24,7 @@ const EventCard = ({ event, formatDate }) => {
 
         {/* Event Details */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1">
             {event.groupName}
           </h3>
           

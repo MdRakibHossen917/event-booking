@@ -50,15 +50,13 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="relative bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group overflow-hidden"
+              className="relative bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-10 shadow-xl border border-gray-100 dark:border-gray-700 group overflow-hidden"
             >
-              {/* Card Background Gradient on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#27548A]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               {/* Step Number */}
               <div className="relative z-10 flex justify-center mb-6 md:mb-8">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-[#27548A]/10 dark:bg-blue-500/10 rounded-full blur-2xl group-hover:bg-[#27548A]/20 dark:group-hover:bg-blue-500/20 transition-all duration-500 scale-150"></div>
-                  <div className="relative bg-gradient-to-br from-[#27548A] to-[#1e3d6b] rounded-2xl p-6 text-white shadow-xl transform group-hover:rotate-6 group-hover:scale-110 transition-all duration-500">
+                  <div className="absolute inset-0 bg-[#27548A]/10 dark:bg-blue-500/10 rounded-full blur-2xl scale-150"></div>
+                  <div className="relative bg-gradient-to-br from-[#27548A] to-[#1e3d6b] rounded-2xl p-6 text-white shadow-xl">
                     {step.icon}
                   </div>
                 </div>
@@ -73,7 +71,7 @@ const HowItWorks = () => {
 
               {/* Content */}
               <div className="relative z-10">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 md:mb-4 group-hover:text-[#27548A] dark:group-hover:text-blue-400 transition-colors duration-300">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3 md:mb-4">
                   {step.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">

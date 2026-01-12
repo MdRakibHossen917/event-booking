@@ -42,17 +42,21 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { to: "/createGroup", label: "CreateGroup" },
-    { to: "/myGroup", label: "MyGroup" },
-    { to: "/allGroups", label: "AllGroups" },
+    { to: "/createGroup", label: "Create Group" },
+    { to: "/myGroup", label: "My Group", requiresAuth: true },
+    { to: "/allGroups", label: "All Groups" },
     { to: "/aboutUs", label: "AboutUs" },
     { to: "/articles", label: "Articles" },
+    { to: "/VolunteerOpp", label: "Volunteer Opportunities" },
     { to: "/dashboard/home", label: "Dashboard" },
   ];
 
+  // Filter navLinks based on authentication
+  const filteredNavLinks = navLinks.filter(link => !link.requiresAuth || user);
+
   const links = (
     <>
-      {navLinks.map((link) => (
+      {filteredNavLinks.map((link) => (
         <li key={link.to}>
           <NavLink
             to={link.to}
@@ -141,7 +145,7 @@ const Navbar = () => {
               <div className="relative p-4 space-y-2">
                 {/* Navigation Links - Pill Style */}
                 <ul className="space-y-2">
-                  {navLinks.map((link) => {
+                  {filteredNavLinks.map((link) => {
                     const isActive = pathname === link.to || (link.to !== '/' && pathname.startsWith(link.to));
                     
                     return (
@@ -226,11 +230,11 @@ const Navbar = () => {
         {user ? (
           <button
             onClick={handleLogout}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 ${
+            className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:shadow-lg ${
               isScrolled 
-                ? 'bg-white text-[#27548A] hover:bg-gray-100 border border-white shadow-md hover:shadow-lg' 
-                : 'bg-[#27548A] text-white hover:bg-[#1e3d6b] border border-[#27548A] hover:shadow-lg'
-            } focus:outline-none focus:ring-2 focus:ring-offset-2 ${isScrolled ? 'focus:ring-[#27548A]' : 'focus:ring-white'} active:scale-95`}
+                ? 'bg-[#12233E] text-white hover:bg-[#1a3455]' 
+                : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 ${isScrolled ? 'focus:ring-[#12233E]' : 'focus:ring-white'} active:scale-95`}
           >
             <MdOutlineLogout size={20} />
             <span>Logout</span>
@@ -239,7 +243,7 @@ const Navbar = () => {
           <>
             <NavLink
               to="/auth/login"
-              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg ${isScrolled ? 'bg-white text-[#27548A] hover:bg-gray-100' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
+              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg ${isScrolled ? 'bg-[#12233E] text-white hover:bg-[#1a3455]' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
             >
               Login
             </NavLink>
@@ -247,7 +251,7 @@ const Navbar = () => {
             {/* Register button visible from md and up only */}
             <NavLink
               to="/auth/register"
-              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hidden md:inline-flex ${isScrolled ? 'bg-white text-[#27548A] hover:bg-gray-100' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
+              className={`btn-sm px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg hidden md:inline-flex ${isScrolled ? 'bg-[#12233E] text-white hover:bg-[#1a3455]' : 'bg-[#27548A] text-white hover:bg-[#1e3d6b]'}`}
             >
               Register
             </NavLink>

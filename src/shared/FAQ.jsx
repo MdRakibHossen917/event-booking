@@ -69,11 +69,11 @@ const FAQ = () => {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 md:px-8 py-5 md:py-6 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2 rounded-2xl transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:scale-[1.01]"
+                  className="w-full px-6 md:px-8 py-5 md:py-6 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#27548A] focus:ring-offset-2 rounded-2xl"
                   aria-expanded={openIndex === index}
                 >
                   <h3 className="text-base md:text-xl font-bold text-gray-900 dark:text-white pr-8 flex-1">

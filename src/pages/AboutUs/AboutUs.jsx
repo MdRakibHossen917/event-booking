@@ -348,7 +348,7 @@ const OurTeamSection = () => {
       socialLinks: [
         { platform: "twitter", icon: Twitter, url: "#" },
         { platform: "linkedin", icon: Linkedin, url: "#" },
-        { platform: "email", icon: Mail, url: "#" }
+        { platform: "email", icon: Mail, url: "mailto:mdrakibhossencse@gmail.com" }
       ]
     },
     {
@@ -370,7 +370,7 @@ const OurTeamSection = () => {
       socialLinks: [
         { platform: "linkedin", icon: Linkedin, url: "#" },
         { platform: "github", icon: Github, url: "#" },
-        { platform: "email", icon: Mail, url: "#" }
+        { platform: "email", icon: Mail, url: "mailto:mdrakibhossencse@gmail.com" }
       ]
     },
     {
@@ -381,7 +381,7 @@ const OurTeamSection = () => {
       socialLinks: [
         { platform: "twitter", icon: Twitter, url: "#" },
         { platform: "linkedin", icon: Linkedin, url: "#" },
-        { platform: "email", icon: Mail, url: "#" }
+        { platform: "email", icon: Mail, url: "mailto:mdrakibhossencse@gmail.com" }
       ]
     }
   ];
@@ -507,7 +507,7 @@ const CTASection = () => {
     { icon: Twitter, url: "#", label: "Twitter" },
     { icon: Linkedin, url: "#", label: "LinkedIn" },
     { icon: Github, url: "#", label: "GitHub" },
-    { icon: Mail, url: "#", label: "Email" }
+    { icon: Mail, url: "mailto:mdrakibhossencse@gmail.com", label: "Email" }
   ];
 
   return (

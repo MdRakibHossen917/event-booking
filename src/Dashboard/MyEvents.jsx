@@ -17,27 +17,52 @@ const MyEvents = () => {
 
   // Fetch Created Groups
   const fetchCreatedGroups = () => {
-    if (!user?.email) return;
+    if (!user?.email) {
+      setLoadingCreated(false);
+      return;
+    }
     fetch(`https://event-booking-server-wheat.vercel.app/groups?userEmail=${user.email}`)
-      .then((res) => res.json())
+      .then((res) => {
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server returned non-JSON response");
+        }
+        return res.json();
+      })
       .then((data) => {
-        setCreatedGroups(data);
+        setCreatedGroups(data || []);
         setLoadingCreated(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Error fetching created groups:", err);
+        setCreatedGroups([]);
         setLoadingCreated(false);
       });
   };
 
   // Fetch Joined Groups
   useEffect(() => {
-    if (!user?.email) return;
+    if (!user?.email) {
+      setLoadingJoined(false);
+      return;
+    }
 
     fetch(`https://event-booking-server-wheat.vercel.app/user-joined-groups?email=${user.email}`)
-      .then((res) => res.json())
+      .then((res) => {
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server returned non-JSON response");
+        }
+        return res.json();
+      })
       .then(async (joinedData) => {
-        const groupIds = joinedData.map((g) => g.groupId);
+        if (!joinedData || !Array.isArray(joinedData)) {
+          setJoinedGroups([]);
+          setLoadingJoined(false);
+          return;
+        }
+
+        const groupIds = joinedData.map((g) => g.groupId).filter(Boolean);
 
         if (groupIds.length === 0) {
           setJoinedGroups([]);
@@ -50,12 +75,19 @@ const MyEvents = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ids: groupIds }),
         });
+        
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server returned non-JSON response");
+        }
+        
         const groupsDetails = await res.json();
-        setJoinedGroups(groupsDetails);
+        setJoinedGroups(Array.isArray(groupsDetails) ? groupsDetails : []);
         setLoadingJoined(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Error fetching joined groups:", err);
+        setJoinedGroups([]);
         setLoadingJoined(false);
       });
   }, [user]);

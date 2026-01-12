@@ -48,7 +48,7 @@ const Footer = () => {
                 <Facebook size={18} />
               </a>
               <a
-                href="mailto:contact@hobbyhub.com"
+                href="mailto:mdrakibhossencse@gmail.com"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#27548A] flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 hover:scale-110"
                 aria-label="Email"
               >

@@ -46,15 +46,15 @@ const testimonials = [
 // Testimonial Card Component
 const TestimonialCard = ({ item }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 dark:border-gray-700 hover:border-[#27548A]/30 dark:hover:border-blue-500/30 group relative overflow-hidden h-full">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 dark:border-gray-700 group relative overflow-hidden h-full">
       {/* Quote Icon Background */}
-      <div className="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition-opacity">
+      <div className="absolute top-4 right-4 opacity-5">
         <FaQuoteLeft size={80} className="text-[#27548A] dark:text-blue-400" />
       </div>
 
       {/* Quote Icon */}
       <div className="mb-4 relative z-10">
-        <div className="inline-block bg-[#27548A]/10 dark:bg-blue-500/20 rounded-full p-3 group-hover:bg-[#27548A]/20 dark:group-hover:bg-blue-500/30 transition-colors">
+        <div className="inline-block bg-[#27548A]/10 dark:bg-blue-500/20 rounded-full p-3">
           <FaQuoteLeft size={20} className="text-[#27548A] dark:text-blue-400" />
         </div>
       </div>

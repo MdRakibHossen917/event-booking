@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
+import { ArrowRight, Mail } from "lucide-react";
 import Button from "./Button";
 
 const Banner = () => {
@@ -14,28 +15,40 @@ const Banner = () => {
   useEffect(() => {
     // Fetch groups data
     fetch("https://event-booking-server-wheat.vercel.app/groups")
-      .then((res) => res.json())
+      .then((res) => {
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Server returned non-JSON response");
+        }
+        return res.json();
+      })
       .then((groups) => {
+        const groupsData = Array.isArray(groups) ? groups : [];
+        
         // Count active groups
-        const activeGroups = groups.length;
+        const activeGroups = groupsData.length || 0;
 
-        // Count total events (each group has events array)
-        const totalEvents = groups.reduce((sum, group) => {
-          return sum + (group.events?.length || 0);
-        }, 0);
+        // Count total events - groups themselves are events, so count all groups
+        const totalEvents = groupsData.length || 0;
 
         // Count unique cities
         const uniqueCities = new Set(
-          groups
+          groupsData
             .map((group) => group.location)
             .filter((location) => location)
         ).size;
 
-        // Fetch joined groups to count total members
-        fetch("https://event-booking-server-wheat.vercel.app/user-joined-groups")
-          .then((res) => res.json())
-          .then((joinedGroups) => {
-            const totalMembers = joinedGroups.length;
+        // Fetch total users count (members)
+        fetch("https://event-booking-server-wheat.vercel.app/totalUsers")
+          .then((res) => {
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+              return { total: 0 };
+            }
+            return res.json();
+          })
+          .then((usersData) => {
+            const totalMembers = usersData?.total || 0;
 
             setStats({
               groups: activeGroups,
@@ -45,7 +58,7 @@ const Banner = () => {
             });
           })
           .catch((err) => {
-            console.error("Error fetching joined groups:", err);
+            console.error("Error fetching total users:", err);
             // Set stats even if members count fails
             setStats({
               groups: activeGroups,
@@ -57,6 +70,12 @@ const Banner = () => {
       })
       .catch((err) => {
         console.error("Error fetching groups:", err);
+        setStats({
+          groups: 0,
+          members: 0,
+          events: 0,
+          cities: 0,
+        });
       });
   }, []);
 
@@ -69,7 +88,7 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative -mt-15 bg-[#101828] dark:bg-gray-900 py-8 md:py-16 overflow-hidden">
+    <section className="relative -mt-6 bg-[#101828] dark:bg-gray-900 py-8 md:py-16 overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#27548A]/10 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -86,7 +105,7 @@ const Banner = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl font-bold text-[#27548A] dark:text-blue-400"
           >
-            Discover Local Hobby Groups
+           Find Your People
           </motion.h1>
 
           <motion.p
@@ -106,17 +125,21 @@ const Banner = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-row gap-3 sm:gap-4 justify-center md:justify-start"
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
-            <Link to="/allGroups">
-              <Button className="px-3 md:px-8 lg:px-12 py-3 md:py-4 text-base md:text-lg">
-                Explore Groups
-              </Button>
+            <Link
+              to="/allGroups"
+              className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#27548A] to-[#1e3d6b] text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-[#27548A]/40"
+            >
+              <span>Explore Groups</span>
+              <ArrowRight className="ml-2" size={20} />
             </Link>
-            <Link to="/createGroup">
-              <Button className="px-4 md:px-8 lg:px-12 py-3 md:py-4 text-base md:text-lg bg-transparent border-2 border-white/30 hover:border-white/50 text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300">
-                Create Group
-              </Button>
+            <Link
+              to="/createGroup"
+              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg transition-all duration-200 hover:bg-white/10"
+            >
+              <Mail className="mr-2" size={20} />
+              <span>Create Group</span>
             </Link>
           </motion.div>
 
