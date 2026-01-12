@@ -2,12 +2,14 @@ import React from "react";
 import Navbar from "../shared/Navbar";
 import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
+import ScrollToTop from "../components/ScrollToTop";
 
  
 
 const RootLayouts = () => {
   return (
     <div className="bg-white dark:bg-gray-900">
+      <ScrollToTop />
       <div className="mt-16">
         <Navbar />
       </div>

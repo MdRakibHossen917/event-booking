@@ -60,13 +60,14 @@ const DiscountBanner = () => {
   const percentage = Math.min(100, (userCount / targetCount) * 100);
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
       <div className="w-11/12 mx-auto max-w-7xl px-4">
-        <div className="relative bg-gradient-to-br from-[#27548A] via-[#497da4] to-[#1e3d6b] rounded-3xl shadow-2xl overflow-hidden border border-[#27548A]/20">
+        <div className="relative bg-gradient-to-br from-[#27548A] to-[#1e3d6b] dark:from-[#27548A] dark:to-[#1e3d6b] rounded-3xl shadow-2xl overflow-hidden">
         {/* Decorative background elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl"></div>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#27548A]/20 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-0">

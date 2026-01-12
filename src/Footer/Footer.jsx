@@ -125,20 +125,20 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/privacy-policy"
                   className="text-gray-300 hover:text-white transition-colors duration-200 text-sm"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/terms-of-service"
                   className="text-gray-300 hover:text-white transition-colors duration-200 text-sm"
                 >
                   Terms of Service
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

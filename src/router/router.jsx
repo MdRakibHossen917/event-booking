@@ -27,6 +27,8 @@ import Contact from "../pages/Contact/Contact";
 import BlogPage from "../pages/BlogPage/BlogPage";
 import EventOrganisers from "../shared/EventOrganisers";
 import VolunteerOpportunities from "../shared/VolunteerOpportunities";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "../pages/TermsOfService/TermsOfService";
  
  
 
@@ -107,6 +109,14 @@ const router = createBrowserRouter([
       {
         path: "/eventOrg",
         element: <EventOrganisers />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsOfService />,
       },
     ],
   },

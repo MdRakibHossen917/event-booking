@@ -132,7 +132,7 @@ const AllGroups = () => {
                     alt={group.groupName}
                     className="w-full h-full object-cover rounded-lg"
                   />
-                  <div className="absolute top-2 right-2 bg-[#27548A] dark:bg-blue-500 text-white text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full shadow-sm tracking-wide">
+                  <div className="absolute top-2 right-2 bg-[#27548A]   text-white text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full shadow-sm tracking-wide">
                     <DaysLeft eventDate={group.formattedDate} />
                   </div>
                 </div>

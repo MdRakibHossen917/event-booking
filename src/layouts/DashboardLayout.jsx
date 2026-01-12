@@ -4,6 +4,7 @@ import { Menu, X, LayoutDashboard, Calendar, LogOut, Home, User, FileText, BookO
 import { AuthContext } from "../Provider/AuthProvider";
 import Button from "../shared/Button";
 import logo from "../assets/log.png";
+import ScrollToTop from "../components/ScrollToTop";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,6 +20,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
+      <ScrollToTop />
       {/* Mobile Toggle Button */}
       <div className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4 flex justify-between items-center sticky top-0 z-40">
         <Link to="/" className="flex items-center">
