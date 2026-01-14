@@ -89,7 +89,7 @@ const CreateGroupForm = () => {
       uploadFormData.append('image', file);
 
       let response = await fetch(
-        `https://api.imgbb.com/1/upload?expiration=600&key=${IMGBB_API_KEY}`,
+        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
         {
           method: 'POST',
           body: uploadFormData
@@ -108,7 +108,7 @@ const CreateGroupForm = () => {
         uploadFormData.append('image', base64Image);
 
         response = await fetch(
-          `https://api.imgbb.com/1/upload?expiration=600&key=${IMGBB_API_KEY}`,
+          `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
           {
             method: 'POST',
             body: uploadFormData

@@ -15,40 +15,62 @@ const LatestCard = () => {
   const scrollContainerRef = useRef(null);
   const hasFetchedRef = useRef(false);
 
+  // Fetch groups data with retry logic
+  const fetchGroups = async (retryCount = 0) => {
+    const maxRetries = 3;
+    const retryDelay = 1000 * Math.pow(2, retryCount); // Exponential backoff: 1s, 2s, 4s
+    
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/groups");
+      
+      // Handle 503 Service Unavailable with retry
+      if (res.status === 503) {
+        if (retryCount < maxRetries) {
+          console.log(`503 error, retrying in ${retryDelay}ms... (attempt ${retryCount + 1}/${maxRetries})`);
+          await new Promise(resolve => setTimeout(resolve, retryDelay));
+          return fetchGroups(retryCount + 1);
+        } else {
+          throw new Error("Service temporarily unavailable. The server is overloaded or under maintenance. Please try again in a few moments.");
+        }
+      }
+
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Server returned non-JSON response");
+      }
+      
+      if (!res.ok) {
+        if (res.status === 503) {
+          throw new Error("Service temporarily unavailable. Please try again in a few moments.");
+        }
+        throw new Error(`HTTP error! status: ${res.status} ${res.statusText}`);
+      }
+      
+      const data = await res.json();
+      const groupsData = Array.isArray(data) ? data : [];
+      // Sort by newest first - MongoDB ObjectIds are chronologically sortable
+      // Reverse the array to get newest first (MongoDB returns oldest first by default)
+      const sortedGroups = [...groupsData].reverse();
+      setGroups(sortedGroups.slice(0, 8));
+      setLoading(false);
+      setError(null);
+      hasFetchedRef.current = true;
+    } catch (err) {
+      console.error("Error fetching groups:", err);
+      setError(err.message);
+      setGroups([]);
+      setLoading(false);
+      hasFetchedRef.current = false; // Allow retry
+    }
+  };
+
   // Fetch groups data - ensure it runs only once
   useEffect(() => {
     if (hasFetchedRef.current) return;
-    
-    setLoading(true);
-    setError(null);
-    hasFetchedRef.current = true;
-
-    fetch("https://event-booking-server-wheat.vercel.app/groups")
-      .then((res) => {
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Server returned non-JSON response");
-        }
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        const groupsData = Array.isArray(data) ? data : [];
-        // Sort by newest first - MongoDB ObjectIds are chronologically sortable
-        // Reverse the array to get newest first (MongoDB returns oldest first by default)
-        const sortedGroups = [...groupsData].reverse();
-        setGroups(sortedGroups.slice(0, 8));
-        setLoading(false);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Error fetching groups:", err);
-        setError(err.message);
-        setGroups([]);
-        setLoading(false);
-      });
+    fetchGroups();
   }, []);
 
   // Fetch joined groups - separate from main data fetch
@@ -183,16 +205,23 @@ const LatestCard = () => {
             <div className="text-center max-w-md px-4">
               <div className="text-5xl mb-4">⚠️</div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Unable to Load Events
+                {error.includes("503") || error.includes("temporarily unavailable") 
+                  ? "Service Temporarily Unavailable" 
+                  : "Unable to Load Events"}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 {error || "Something went wrong while fetching events. Please try again later."}
               </p>
+              {(error.includes("503") || error.includes("temporarily unavailable")) && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  The server is currently overloaded or under maintenance. This usually resolves quickly.
+                </p>
+              )}
               <button
                 onClick={() => {
                   hasFetchedRef.current = false;
                   setError(null);
-                  setLoading(true);
+                  fetchGroups();
                 }}
                 className="px-6 py-2 bg-[#27548A] hover:bg-[#1e3d6b] text-white rounded-lg font-semibold transition-all duration-200"
               >
