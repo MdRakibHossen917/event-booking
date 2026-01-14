@@ -3,9 +3,10 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
-import { IoLocationOutline, IoCalendarOutline, IoTimeOutline, IoPeopleOutline, IoLogOutOutline } from "react-icons/io5";
+import { IoLocationOutline, IoCalendarOutline, IoTimeOutline, IoPeopleOutline, IoLogOutOutline, IoEyeOutline } from "react-icons/io5";
 import DaysLeft from "../shared/DaysLeft";
 import Button from "../shared/Button";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const JoinedGroups = () => {
   const { user } = useContext(AuthContext);
@@ -47,8 +48,8 @@ const JoinedGroups = () => {
   }, [user]);
 
   // Leave group handler
-  const handleLeaveGroup = (groupId, groupName) => {
-    Swal.fire({
+  const handleLeaveGroup = async (groupId, groupName) => {
+    const result = await Swal.fire({
       title: "Leave Event?",
       text: `Are you sure you want to leave "${groupName}"?`,
       icon: "question",
@@ -57,30 +58,45 @@ const JoinedGroups = () => {
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, leave it",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch("https://event-booking-server-wheat.vercel.app/leaveGroup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ groupId, userEmail: user.email }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire("Left Event", "You have left the event successfully.", "success");
-              setJoinedGroups((prev) =>
-                prev.filter((group) => group._id !== groupId)
-              );
-            } else {
-              Swal.fire("Error", data.message || "Failed to leave event", "error");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            Swal.fire("Error", "Something went wrong", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/leaveGroup", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ groupId, userEmail: user.email }),
+      });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to leave this event.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire("Left Event", "You have left the event successfully.", "success");
+        setJoinedGroups((prev) =>
+          prev.filter((group) => group._id !== groupId)
+        );
+      } else {
+        Swal.fire("Error", data.message || data.error || "Failed to leave event", "error");
+      }
+    } catch (err) {
+      console.error("Leave group error:", err);
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+    }
   };
 
   const formatDate = (dateString) => {
@@ -213,7 +229,8 @@ const JoinedGroups = () => {
                         to={`/group/${group._id}`}
                         className="flex-1 bg-[#27548A] hover:bg-[#1e3d6b] dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg active:scale-95"
                       >
-                        View Details
+                        <IoEyeOutline size={18} />
+                        View
                       </Link>
                       <button
                         onClick={() => handleLeaveGroup(group._id, group.groupName)}

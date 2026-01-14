@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
 import Button from "./Button";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const LatestCard = () => {
   const { user } = useContext(AuthContext);
@@ -35,7 +36,10 @@ const LatestCard = () => {
       })
       .then((data) => {
         const groupsData = Array.isArray(data) ? data : [];
-        setGroups(groupsData.slice(0, 8));
+        // Sort by newest first - MongoDB ObjectIds are chronologically sortable
+        // Reverse the array to get newest first (MongoDB returns oldest first by default)
+        const sortedGroups = [...groupsData].reverse();
+        setGroups(sortedGroups.slice(0, 8));
         setLoading(false);
         setError(null);
       })
@@ -84,13 +88,22 @@ const LatestCard = () => {
     };
   }, [user?.email]);
 
-  const handleJoinGroup = (group) => {
+  const handleJoinGroup = async (group) => {
     if (!user?.email) {
       return Swal.fire(
         "Login Required",
         "Please log in to join a group",
         "warning"
       );
+    }
+
+    // Check if user is the creator of this event
+    if (group.userEmail === user.email) {
+      return Swal.fire({
+        icon: "info",
+        title: "Cannot Join",
+        text: "You cannot join your own created event.",
+      });
     }
 
     const joinedGroup = {
@@ -100,26 +113,44 @@ const LatestCard = () => {
       joinedAt: new Date(),
     };
 
-    fetch("https://event-booking-server-wheat.vercel.app/joinGroup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(joinedGroup),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          Swal.fire("Joined!", "You have joined this group.", "success");
-          setJoinedGroups((prev) => [...prev, group._id.toString()]);
-        } else {
-          Swal.fire("Notice", data.message || "Already joined.", "info");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        Swal.fire("Error", "Something went wrong.", "error");
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/joinGroup", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(joinedGroup),
       });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to join this event.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire("Joined!", "You have joined this group.", "success");
+        setJoinedGroups((prev) => [...prev, group._id.toString()]);
+      } else {
+        // Show the actual error message from server
+        Swal.fire({
+          icon: "info",
+          title: "Notice",
+          text: data.message || data.error || "Unable to join this event. Please try again.",
+        });
+      }
+    } catch (err) {
+      console.error("Join group error:", err);
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+    }
   };
 
   return (
@@ -174,22 +205,19 @@ const LatestCard = () => {
         {/* Content - Only render when we have data or not loading */}
         {!loading && !error && (
           <>
-            <div className="px-5 mb-4 md:mb-8 overflow-visible md:px-10 -mx-[4.5%] md:mx-0">
+            <div className="mb-4 md:mb-8 overflow-hidden px-4 md:px-6">
               <div 
                 ref={scrollContainerRef}
-                className="flex gap-3 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory md:-mx-4 md:px-4"
-                style={{
-                  paddingLeft: 'calc((100vw - 320px) / 2)',
-                  paddingRight: 'calc((100vw - 320px) / 2)',
-                }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
               >
                 {groups.length > 0 ? (
-                  groups.map((group) => {
+                  groups.slice(0, 3).map((group) => {
+            const isCreator = group.userEmail === user?.email;
             const alreadyJoined = joinedGroups.includes(group._id.toString());
             return (
               <div
                 key={group._id}
-                className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl flex flex-col h-full border border-gray-200 dark:border-gray-700 group flex-shrink-0 w-[320px] md:w-[350px] lg:w-[380px] snap-start"
+                className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl flex flex-col h-full border border-gray-200 dark:border-gray-700 group"
               >
                 {/* Image Container */}
                 <div className="relative overflow-hidden">
@@ -210,13 +238,15 @@ const LatestCard = () => {
                          handleJoinGroup(group);
                        }}
                        className={`px-4 py-2 text-sm font-semibold rounded-lg ${
-                         alreadyJoined
+                         isCreator
+                           ? "bg-gray-300/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+                           : alreadyJoined
                            ? "bg-gray-300/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 cursor-not-allowed"
                            : "bg-[#27548A] text-white"
                        }`}
-                       disabled={alreadyJoined}
+                       disabled={isCreator || alreadyJoined}
                      >
-                       {alreadyJoined ? "✓ Joined" : "Join Now"}
+                       {isCreator ? "Your Event" : alreadyJoined ? "✓ Joined" : "Join Now"}
                      </Button>
                    </div>
                   

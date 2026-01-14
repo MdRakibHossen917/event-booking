@@ -8,7 +8,7 @@ import ScrollToTop from "../components/ScrollToTop";
 
 const RootLayouts = () => {
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div className="bg-white dark:bg-gray-900 overflow-x-hidden">
       <ScrollToTop />
       <div className="mt-16">
         <Navbar />

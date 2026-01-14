@@ -74,7 +74,7 @@ const OurStorySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
+    <section className="py-16 md:py-24 bg-white dark:bg-gray-900 px-4 md:px-6">
       <div className="w-11/12 mx-auto">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -173,7 +173,7 @@ const MissionVisionValuesSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50">
+    <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50 px-4 md:px-6">
       <div className="w-11/12 mx-auto">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -245,7 +245,7 @@ const WhyChooseUsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
+    <section className="py-16 md:py-24 bg-white dark:bg-gray-900 px-4 md:px-6">
       <div className="w-11/12 mx-auto">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -301,13 +301,13 @@ const TeamCard = ({ name, role, bio, image, socialLinks, delay = 0 }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay }}
-      className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group text-center"
+      className="bg-white dark:bg-gray-800 rounded-2xl p-2 md:p-4 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 group text-center  "
     >
-      <div className="relative mb-6 inline-block">
+      <div className="relative mb-6 inline-block ">
         <img
           src={image}
           alt={name}
-          className="w-32 h-32 rounded-full object-cover border-4 border-gray-100 dark:border-gray-700 group-hover:border-[#27548A] dark:group-hover:border-blue-500 transition-colors duration-300"
+          className="w-32 h-32 rounded-full object-cover border-4 border-gray-100 dark:border-gray-700 group-hover:border-[#27548A] dark:group-hover:border-blue-500 transition-colors duration-300 "
         />
         <div className="absolute inset-0 rounded-full bg-[#27548A] dark:bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
       </div>
@@ -387,7 +387,7 @@ const OurTeamSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50">
+    <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50 px-4 md:px-6">
       <div className="w-11/12 mx-auto">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -406,7 +406,7 @@ const OurTeamSection = () => {
             <div className="w-24 h-1 bg-[#27548A] dark:bg-blue-400 mx-auto mt-4"></div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {team.map((member, index) => (
               <TeamCard
                 key={member.name}
@@ -478,7 +478,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-[#27548A] to-blue-600 dark:from-blue-900 dark:to-blue-800">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-[#1E3D6B] to-[#1E3D6B]   ">
       <div className="w-11/12 mx-auto">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">

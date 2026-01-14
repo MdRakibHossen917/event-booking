@@ -7,6 +7,7 @@ import { IoLocationOutline, IoCalendarOutline, IoTimeOutline, IoPeopleOutline, I
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import DaysLeft from "../shared/DaysLeft";
 import Button from "../shared/Button";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const MyEvents = () => {
   const { user } = useContext(AuthContext);
@@ -96,8 +97,8 @@ const MyEvents = () => {
     fetchCreatedGroups();
   }, [user]);
 
-  const handleDelete = (id, groupName) => {
-    Swal.fire({
+  const handleDelete = async (id, groupName) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to delete "${groupName}"?`,
       icon: "warning",
@@ -106,29 +107,53 @@ const MyEvents = () => {
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://event-booking-server-wheat.vercel.app/groups/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire("Deleted!", "Event deleted successfully.", "success");
-              fetchCreatedGroups();
-            } else {
-              Swal.fire("Error", data.message || "Failed to delete event", "error");
-            }
-          })
-          .catch(() => {
-            Swal.fire("Error", "Failed to delete event", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch(`https://event-booking-server-wheat.vercel.app/groups/${id}`, {
+        method: "DELETE",
+        headers,
+      });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to delete this event.",
+        });
+        return;
+      }
+
+      // Check content type before parsing
+      const contentType = res.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
+
+      // Check if response is OK or 404 (404 means already deleted)
+      if (res.ok || res.status === 404) {
+        const data = isJson ? await res.json().catch(() => ({})) : {};
+        Swal.fire("Deleted!", data.message || "Event deleted successfully.", "success");
+        fetchCreatedGroups();
+      } else {
+        // Try to get error message
+        const errorData = isJson ? await res.json().catch(() => ({})) : {};
+        console.error("Server error:", errorData, "Status:", res.status);
+        Swal.fire("Error", errorData.message || errorData.error || `Failed to delete event (Status: ${res.status})`, "error");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      Swal.fire("Error", "Failed to delete event. Please try again.", "error");
+    }
   };
 
-  const handleLeaveGroup = (groupId, groupName) => {
-    Swal.fire({
+  const handleLeaveGroup = async (groupId, groupName) => {
+    const result = await Swal.fire({
       title: "Leave Event?",
       text: `Are you sure you want to leave "${groupName}"?`,
       icon: "question",
@@ -137,28 +162,43 @@ const MyEvents = () => {
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, leave it",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch("https://event-booking-server-wheat.vercel.app/leaveGroup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ groupId, userEmail: user.email }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire("Left Event", "You have left the event successfully.", "success");
-              setJoinedGroups((prev) => prev.filter((group) => group._id !== groupId));
-            } else {
-              Swal.fire("Error", data.message || "Failed to leave event", "error");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            Swal.fire("Error", "Something went wrong", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/leaveGroup", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ groupId, userEmail: user.email }),
+      });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to leave this event.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire("Left Event", "You have left the event successfully.", "success");
+        setJoinedGroups((prev) => prev.filter((group) => group._id !== groupId));
+      } else {
+        Swal.fire("Error", data.message || data.error || "Failed to leave event", "error");
+      }
+    } catch (err) {
+      console.error("Leave group error:", err);
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+    }
   };
 
   const formatDate = (dateString) => {

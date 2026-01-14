@@ -43,7 +43,6 @@ const Navbar = () => {
 
   const navLinks = [
     { to: "/createGroup", label: "Create Group" },
-    { to: "/myGroup", label: "My Group", requiresAuth: true },
     { to: "/allGroups", label: "All Groups" },
     { to: "/aboutUs", label: "AboutUs" },
     { to: "/articles", label: "Articles" },

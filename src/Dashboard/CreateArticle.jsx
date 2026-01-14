@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Button from "../shared/Button";
 import { FaSpinner, FaCloudUploadAlt, FaTimes } from "react-icons/fa";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const CreateArticle = () => {
   const { user } = useContext(AuthContext);
@@ -242,14 +243,17 @@ const CreateArticle = () => {
         coverImage: coverImageUrl || "",
         category: formData.category || "General",
         authorName: user?.displayName || user?.email || "Anonymous",
-        authorEmail: user?.email,
         authorImage: user?.photoURL || "",
         publishDate: new Date().toISOString(),
+        // Note: authorEmail and authorId will be set automatically by backend from authenticated user
       };
+
+      // Get authentication headers (includes Firebase token + fallback headers)
+      const headers = await getAuthHeaders(user);
 
       const response = await fetch("https://event-booking-server-wheat.vercel.app/articles", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(newArticle),
       });
 
@@ -283,6 +287,27 @@ const CreateArticle = () => {
       const data = await response.json();
 
       setLoading(false);
+
+      // Handle authentication errors
+      if (response.status === 401 || response.status === 403) {
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: data.message || data.error || "Please log in again to publish an article.",
+        });
+        return;
+      }
+
+      // Handle server errors
+      if (!response.ok) {
+        console.error("Server error:", data);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.message || data.error || "Failed to publish article. Please try again.",
+        });
+        return;
+      }
 
       if (data.success || response.ok) {
         Swal.fire({

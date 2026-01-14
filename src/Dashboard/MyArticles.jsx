@@ -5,6 +5,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { Calendar, User, Clock, ArrowRight, Edit, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import Button from "../shared/Button";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const MyArticles = () => {
   const { user } = useContext(AuthContext);
@@ -41,8 +42,8 @@ const MyArticles = () => {
       });
   }, [user?.email]);
 
-  const handleDelete = (id, title) => {
-    Swal.fire({
+  const handleDelete = async (id, title) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to delete "${title}"?`,
       icon: "warning",
@@ -51,25 +52,52 @@ const MyArticles = () => {
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://event-booking-server-wheat.vercel.app/articles/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success || data.deletedCount > 0) {
-              Swal.fire("Deleted!", "Article deleted successfully.", "success");
-              setArticles((prev) => prev.filter((article) => article._id !== id));
-            } else {
-              Swal.fire("Error", data.message || "Failed to delete article", "error");
-            }
-          })
-          .catch(() => {
-            Swal.fire("Error", "Failed to delete article", "error");
-          });
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        // Get authentication headers
+        const headers = await getAuthHeaders(user);
+
+        const response = await fetch(`https://event-booking-server-wheat.vercel.app/articles/${id}`, {
+          method: "DELETE",
+          headers,
+        });
+
+        // Handle authentication errors
+        if (response.status === 401 || response.status === 403) {
+          const errorData = await response.json().catch(() => ({}));
+          Swal.fire({
+            icon: "error",
+            title: "Authentication Error",
+            text: errorData.message || errorData.error || "Please log in again to delete this article.",
+          });
+          return;
+        }
+
+        // Check if response is OK or 404 (404 means already deleted)
+        if (response.ok || response.status === 404) {
+          // Try to parse as JSON, but handle non-JSON responses
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            Swal.fire("Deleted!", "Article deleted successfully.", "success");
+            setArticles((prev) => prev.filter((article) => article._id !== id));
+          } else {
+            // If response is OK/404 but not JSON, assume success (item already deleted)
+            Swal.fire("Deleted!", "Article deleted successfully.", "success");
+            setArticles((prev) => prev.filter((article) => article._id !== id));
+          }
+        } else {
+          // Response not OK and not 404, try to get error message
+          const errorData = await response.json().catch(() => ({ message: "Failed to delete article" }));
+          Swal.fire("Error", errorData.message || errorData.error || "Failed to delete article", "error");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        Swal.fire("Error", "Failed to delete article. Please try again.", "error");
+      }
+    }
   };
 
   const formatDate = (dateString) => {
@@ -200,13 +228,6 @@ const MyArticles = () => {
                     >
                       <span>Read More</span>
                       <ArrowRight className="w-4 h-4" />
-                    </Link>
-                    <Link
-                      to={`/articles/${article._id}/edit`}
-                      className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold py-2.5 px-3 rounded-lg transition-all duration-200 flex items-center justify-center hover:shadow-lg active:scale-95"
-                      title="Edit Article"
-                    >
-                      <Edit className="w-4 h-4" />
                     </Link>
                     <button
                       onClick={() => handleDelete(article._id, article.title)}

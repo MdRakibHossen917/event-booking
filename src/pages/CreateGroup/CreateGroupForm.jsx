@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import Button from "../../shared/Button";
 import { FaCloudUploadAlt, FaSpinner, FaTimes } from "react-icons/fa";
+import { getAuthHeaders } from "../../utils/apiHelpers";
 
 const CreateGroupForm = () => {
   const { user } = useContext(AuthContext);
@@ -241,16 +242,91 @@ const CreateGroupForm = () => {
         userEmail: user?.email,
       };
 
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      console.log("Creating event with data:", newGroup);
+      console.log("Headers:", { ...headers, Authorization: headers.Authorization ? "Bearer ***" : "Missing" });
+
       const response = await fetch("https://event-booking-server-wheat.vercel.app/createGroup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(newGroup),
       });
 
-      const data = await response.json();
+      console.log("Response status:", response.status, response.statusText);
+
+      // Check content type before parsing
+      const contentType = response.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
+
+      // Handle authentication errors
+      if (response.status === 401 || response.status === 403) {
+        setLoading(false);
+        setUploadingImage(false);
+        let errorData = {};
+        if (isJson) {
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            const text = await response.text().catch(() => "");
+            errorData = { error: text || "Authentication failed" };
+          }
+        } else {
+          const text = await response.text().catch(() => "");
+          errorData = { error: text || "Authentication failed" };
+        }
+        console.error("Authentication error:", errorData);
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to create an event.",
+        });
+        return;
+      }
+
+      // Parse response
+      let data = {};
+      let errorText = "";
+      try {
+        if (isJson) {
+          data = await response.json();
+        } else {
+          errorText = await response.text();
+        }
+      } catch (e) {
+        console.error("Error parsing response:", e);
+        errorText = "Unable to parse server response";
+      }
+
+      console.log("Response data:", data);
+      console.log("Response error text:", errorText);
 
       setLoading(false);
+      setUploadingImage(false);
 
+      // Handle server errors
+      if (!response.ok) {
+        const errorMessage = data.message || data.error || errorText || `Server returned status ${response.status}`;
+        console.error("Server error - Status:", response.status, "Message:", errorMessage);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: `
+            <div style="text-align: left;">
+              <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+              <p><strong>Error:</strong> ${errorMessage}</p>
+              <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                Please check the browser console (F12) for more details.
+              </p>
+            </div>
+          `,
+          width: "500px"
+        });
+        return;
+      }
+
+      // Check if success
       if (data.success) {
         Swal.fire({
           icon: "success",
@@ -279,10 +355,20 @@ const CreateGroupForm = () => {
           navigate("/myGroup");
         });
       } else {
+        const errorMessage = data.message || data.error || errorText || "Failed to create event. Please try again.";
+        console.error("Create failed - Success false. Data:", data);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: data.message || "Failed to create event. Please try again.",
+          html: `
+            <div style="text-align: left;">
+              <p><strong>Error:</strong> ${errorMessage}</p>
+              <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                Please check the browser console (F12) for more details.
+              </p>
+            </div>
+          `,
+          width: "500px"
         });
       }
     } catch (error) {

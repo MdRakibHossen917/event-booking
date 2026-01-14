@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Mail, Plus } from "lucide-react";
 import Button from "./Button";
 
 const Banner = () => {
@@ -138,7 +138,7 @@ const Banner = () => {
               to="/createGroup"
               className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg transition-all duration-200 hover:bg-white/10"
             >
-              <Mail className="mr-2" size={20} />
+              <Plus className="mr-2" size={20} />
               <span>Create Group</span>
             </Link>
           </motion.div>

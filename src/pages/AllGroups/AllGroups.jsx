@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import DaysLeft from "../../shared/DaysLeft";
 import { IoLocationOutline } from "react-icons/io5";
 import Button from "../../shared/Button";
+import { getAuthHeaders } from "../../utils/apiHelpers";
 
 const AllGroups = () => {
   const { user } = useContext(AuthContext);
@@ -36,13 +37,22 @@ const AllGroups = () => {
     }
   }, [user?.email]);
 
-  const handleJoinGroup = (group) => {
+  const handleJoinGroup = async (group) => {
     if (!user?.email) {
       return Swal.fire(
         "Login Required",
         "Please log in to join a group",
         "warning"
       );
+    }
+
+    // Check if user is the creator of this event
+    if (group.userEmail === user.email) {
+      return Swal.fire({
+        icon: "info",
+        title: "Cannot Join",
+        text: "You cannot join your own created event.",
+      });
     }
 
     const joinedGroup = {
@@ -52,26 +62,44 @@ const AllGroups = () => {
       joinedAt: new Date(),
     };
 
-    fetch(" https://event-booking-server-wheat.vercel.app/joinGroup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(joinedGroup),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          Swal.fire("Joined!", "You have joined this group.", "success");
-          setJoinedGroups((prev) => [...prev, group._id.toString()]);
-        } else {
-          Swal.fire("Notice", data.message || "Already joined.", "info");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        Swal.fire("Error", "Something went wrong.", "error");
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/joinGroup", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(joinedGroup),
       });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to join this event.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire("Joined!", "You have joined this group.", "success");
+        setJoinedGroups((prev) => [...prev, group._id.toString()]);
+      } else {
+        // Show the actual error message from server
+        Swal.fire({
+          icon: "info",
+          title: "Notice",
+          text: data.message || data.error || "Unable to join this event. Please try again.",
+        });
+      }
+    } catch (err) {
+      console.error("Join group error:", err);
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+    }
   };
 
   if (loading) return (

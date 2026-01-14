@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import Button from "../../shared/Button";
+import { getAuthHeaders } from "../../utils/apiHelpers";
 
 const MyGroup = () => {
   const { user } = useContext(AuthContext);
@@ -78,8 +79,8 @@ const MyGroup = () => {
     }
   }, [joinedGroupIds]);
 
-  const handleDelete = (id) => {
-    Swal.fire({
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -87,30 +88,158 @@ const MyGroup = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire("Deleted!", data.message, "success");
-              fetchCreatedGroups();
-              fetchJoinedGroupIds();
-            } else {
-              Swal.fire("Error", data.message || "Failed to delete", "error");
-            }
-          })
-          .catch(() => {
-            Swal.fire("Error", "Failed to delete group", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Verify user is available
+      if (!user) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "You must be logged in to delete a group.",
+        });
+        return;
+      }
+
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+      
+      // Verify token is present
+      if (!headers.Authorization && !headers['X-User-Email']) {
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: "Unable to authenticate. Please log out and log back in.",
+        });
+        return;
+      }
+
+      console.log("Attempting to delete group:", id, "User:", userEmail);
+      
+      // Add userEmail as query parameter to help backend identify the user
+      const url = userEmail 
+        ? `https://event-booking-server-wheat.vercel.app/groups/${id}?userEmail=${encodeURIComponent(userEmail)}`
+        : `https://event-booking-server-wheat.vercel.app/groups/${id}`;
+      
+      const res = await fetch(url, {
+        method: "DELETE",
+        headers,
+      });
+      
+      console.log("Delete response status:", res.status, res.statusText);
+
+      // Check content type before parsing
+      const contentType = res.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
+
+      // Handle authentication errors first
+      if (res.status === 401 || res.status === 403) {
+        let errorData = {};
+        if (isJson) {
+          try {
+            errorData = await res.json();
+          } catch (e) {
+            const text = await res.text().catch(() => "");
+            errorData = { error: text || "Authentication failed" };
+          }
+        } else {
+          const text = await res.text().catch(() => "");
+          errorData = { error: text || "Authentication failed" };
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to delete this group.",
+        });
+        return;
+      }
+
+      // Check if response is OK or 404 (404 means already deleted)
+      if (res.ok || res.status === 404) {
+        let data = {};
+        if (isJson) {
+          try {
+            data = await res.json();
+          } catch (e) {
+            // Response is OK but not JSON, that's fine
+          }
+        }
+        Swal.fire("Deleted!", data.message || "Group deleted successfully.", "success");
+        fetchCreatedGroups();
+        fetchJoinedGroupIds();
+      } else {
+        // Try to get error message - read response only once
+        let errorData = {};
+        let errorText = "";
+        try {
+          if (isJson) {
+            errorData = await res.json();
+          } else {
+            errorText = await res.text();
+          }
+        } catch (e) {
+          console.error("Error reading response:", e);
+          errorText = "Unable to read server response";
+        }
+        
+        console.error("Delete failed - Status:", res.status, "StatusText:", res.statusText);
+        console.error("Error data:", errorData);
+        console.error("Error text:", errorText);
+        
+        // Show detailed error message
+        const errorMessage = errorData.message || errorData.error || errorText || `Server returned status ${res.status}`;
+        
+        // Special handling for 500 errors
+        if (res.status === 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Server Error",
+            html: `
+              <div style="text-align: left;">
+                <p><strong>Status:</strong> ${res.status} - Internal Server Error</p>
+                <p><strong>Error:</strong> ${errorMessage}</p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                  This is a server-side error. Possible causes:
+                </p>
+                <ul style="font-size: 12px; color: #666; text-align: left; margin-top: 5px;">
+                  <li>The group may have related data that prevents deletion</li>
+                  <li>The server may be experiencing issues</li>
+                  <li>Please try again in a few moments</li>
+                </ul>
+                <p style="font-size: 11px; color: #999; margin-top: 10px;">
+                  Check the browser console (F12) for technical details.
+                </p>
+              </div>
+            `,
+            width: "550px"
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Delete Group",
+            html: `
+              <div style="text-align: left;">
+                <p><strong>Status:</strong> ${res.status} ${res.statusText}</p>
+                <p><strong>Error:</strong> ${errorMessage}</p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                  Please check the browser console (F12) for more details.
+                </p>
+              </div>
+            `,
+            width: "500px"
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      Swal.fire("Error", "Failed to delete group. Please try again.", "error");
+    }
   };
 
-  const handleLeave = (groupId) => {
-    Swal.fire({
+  const handleLeave = async (groupId) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to leave this group?",
       icon: "warning",
@@ -118,43 +247,59 @@ const MyGroup = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, leave group!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(` https://event-booking-server-wheat.vercel.app/leaveGroup`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            groupId,
-            userEmail,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire(
-                "Left Group!",
-                "You left the group successfully.",
-                "success"
-              );
-              fetchJoinedGroupIds();
-            } else {
-              Swal.fire(
-                "Error",
-                data.message || "Failed to leave group",
-                "error"
-              );
-            }
-          })
-          .catch(() => {
-            Swal.fire("Error", "Failed to leave group", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch("https://event-booking-server-wheat.vercel.app/leaveGroup", {
+        method: "DELETE",
+        headers,
+        body: JSON.stringify({
+          groupId,
+          userEmail,
+        }),
+      });
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to leave this group.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire(
+          "Left Group!",
+          "You left the group successfully.",
+          "success"
+        );
+        fetchJoinedGroupIds();
+      } else {
+        Swal.fire(
+          "Error",
+          data.message || data.error || "Failed to leave group",
+          "error"
+        );
+      }
+    } catch (err) {
+      console.error("Leave group error:", err);
+      Swal.fire("Error", "Failed to leave group. Please try again.", "error");
+    }
   };
 
   const handleEditClick = (group) => setEditingGroup(group);
 
-  const handleUpdateSubmit = (e) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
 
@@ -171,27 +316,44 @@ const MyGroup = () => {
       userEmail: userEmail,
     };
 
-    fetch(
-      ` https://event-booking-server-wheat.vercel.app/groups/${editingGroup._id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedGroup),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          Swal.fire("Updated!", "Group updated successfully.", "success");
-          setEditingGroup(null);
-          fetchCreatedGroups();
-        } else {
-          Swal.fire("Error", data.message || "Failed to update", "error");
+    try {
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+
+      const res = await fetch(
+        `https://event-booking-server-wheat.vercel.app/groups/${editingGroup._id}`,
+        {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(updatedGroup),
         }
-      })
-      .catch(() => {
-        Swal.fire("Error", "Failed to update group", "error");
-      });
+      );
+
+      // Handle authentication errors
+      if (res.status === 401 || res.status === 403) {
+        const errorData = await res.json().catch(() => ({}));
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to update this group.",
+        });
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire("Updated!", "Group updated successfully.", "success");
+        setEditingGroup(null);
+        fetchCreatedGroups();
+      } else {
+        console.error("Server error:", data);
+        Swal.fire("Error", data.message || data.error || "Failed to update", "error");
+      }
+    } catch (error) {
+      console.error("Update error:", error);
+      Swal.fire("Error", "Failed to update group. Please try again.", "error");
+    }
   };
 
   if (!userEmail) return (

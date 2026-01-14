@@ -7,6 +7,7 @@ import { IoLocationOutline, IoCalendarOutline, IoTimeOutline, IoPeopleOutline } 
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import DaysLeft from "../shared/DaysLeft";
 import Button from "../shared/Button";
+import { getAuthHeaders } from "../utils/apiHelpers";
 
 const MyCreatedGroups = () => {
   const { user } = useContext(AuthContext);
@@ -33,8 +34,8 @@ const MyCreatedGroups = () => {
     fetchMyGroups();
   }, [user]);
 
-  const handleDelete = (id, groupName) => {
-    Swal.fire({
+  const handleDelete = async (id, groupName) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to delete "${groupName}"?`,
       icon: "warning",
@@ -43,29 +44,138 @@ const MyCreatedGroups = () => {
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://event-booking-server-wheat.vercel.app/groups/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              Swal.fire("Deleted!", "Event deleted successfully.", "success");
-              fetchMyGroups();
-            } else {
-              Swal.fire(
-                "Error",
-                data.message || "Failed to delete event",
-                "error"
-              );
-            }
-          })
-          .catch(() => {
-            Swal.fire("Error", "Failed to delete event", "error");
-          });
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Verify user is available
+      if (!user) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "You must be logged in to delete an event.",
+        });
+        return;
+      }
+
+      // Get authentication headers (includes Firebase token)
+      const headers = await getAuthHeaders(user);
+      
+      console.log("Attempting to delete event:", id, "User:", user.email);
+      
+      // Add userEmail as query parameter to help backend identify the user
+      const url = user.email 
+        ? `https://event-booking-server-wheat.vercel.app/groups/${id}?userEmail=${encodeURIComponent(user.email)}`
+        : `https://event-booking-server-wheat.vercel.app/groups/${id}`;
+      
+      const res = await fetch(url, {
+        method: "DELETE",
+        headers,
+      });
+      
+      console.log("Delete response status:", res.status, res.statusText);
+
+      // Check content type before parsing
+      const contentType = res.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
+
+      // Handle authentication errors first
+      if (res.status === 401 || res.status === 403) {
+        let errorData = {};
+        if (isJson) {
+          try {
+            errorData = await res.json();
+          } catch (e) {
+            const text = await res.text().catch(() => "");
+            errorData = { error: text || "Authentication failed" };
+          }
+        } else {
+          const text = await res.text().catch(() => "");
+          errorData = { error: text || "Authentication failed" };
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Authentication Error",
+          text: errorData.message || errorData.error || "Please log in again to delete this event.",
+        });
+        return;
+      }
+
+      // Check if response is OK or 404 (404 means already deleted)
+      if (res.ok || res.status === 404) {
+        let data = {};
+        if (isJson) {
+          try {
+            data = await res.json();
+          } catch (e) {
+            // Response is OK but not JSON, that's fine
+          }
+        }
+        Swal.fire("Deleted!", data.message || "Event deleted successfully.", "success");
+        fetchMyGroups();
+      } else {
+        // Try to get error message - read response only once
+        let errorData = {};
+        let errorText = "";
+        try {
+          if (isJson) {
+            errorData = await res.json();
+          } else {
+            errorText = await res.text();
+          }
+        } catch (e) {
+          console.error("Error reading response:", e);
+          errorText = "Unable to read server response";
+        }
+        
+        console.error("Delete failed - Status:", res.status, "StatusText:", res.statusText);
+        console.error("Error data:", errorData);
+        console.error("Error text:", errorText);
+        
+        // Show detailed error message
+        const errorMessage = errorData.message || errorData.error || errorText || `Server returned status ${res.status}`;
+        
+        // Special handling for 500 errors
+        if (res.status === 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Server Error",
+            html: `
+              <div style="text-align: left;">
+                <p><strong>Status:</strong> ${res.status} - Internal Server Error</p>
+                <p><strong>Error:</strong> ${errorMessage}</p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                  This is a server-side error. The backend may need to handle related data deletion.
+                </p>
+                <p style="font-size: 11px; color: #999; margin-top: 10px;">
+                  Check the browser console (F12) for technical details.
+                </p>
+              </div>
+            `,
+            width: "550px"
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Delete Event",
+            html: `
+              <div style="text-align: left;">
+                <p><strong>Status:</strong> ${res.status} ${res.statusText}</p>
+                <p><strong>Error:</strong> ${errorMessage}</p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                  Please check the browser console (F12) for more details.
+                </p>
+              </div>
+            `,
+            width: "500px"
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      Swal.fire("Error", "Failed to delete event. Please try again.", "error");
+    }
   };
 
   const formatDate = (dateString) => {

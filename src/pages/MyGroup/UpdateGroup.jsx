@@ -1,32 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const UpdateGroup = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`)
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+
+    // Try fetching single group first
+    fetch(`https://event-booking-server-wheat.vercel.app/groups/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch group data");
-        return res.json();
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        } else {
+          // If not JSON, try fetching all groups and find the one
+          throw new Error("Single group endpoint not available, fetching all groups");
+        }
       })
       .then((data) => {
-        setGroupData(data);
-        setLoading(false);
+        if (data) {
+          setGroupData(data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        console.error(err);
-        Swal.fire("Error", "Could not load group data", "error");
-        setLoading(false);
+        // Fallback: fetch all groups and find the one with matching id
+        console.log("Trying fallback: fetching all groups");
+        fetch("https://event-booking-server-wheat.vercel.app/groups")
+          .then((res) => {
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+              throw new Error("Server returned non-JSON response");
+            }
+            return res.json();
+          })
+          .then((allGroups) => {
+            const groupsArray = Array.isArray(allGroups) ? allGroups : [];
+            const group = groupsArray.find((g) => g._id === id);
+            if (group) {
+              setGroupData(group);
+              setLoading(false);
+            } else {
+              throw new Error("Group not found");
+            }
+          })
+          .catch((fetchErr) => {
+            console.error("Error fetching group:", fetchErr);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Could not load group data. Please try again.",
+            });
+            setLoading(false);
+            navigate("/myGroup");
+          });
       });
-  }, [id]);
+  }, [id, navigate]);
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -43,30 +88,49 @@ const UpdateGroup = () => {
       day: form.day.value,
     };
 
-    fetch(` https://event-booking-server-wheat.vercel.app/groups/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedGroup),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to update group");
-        return res.json();
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Group updated successfully",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        navigate("/myGroup");
-      })
-      .catch((err) => {
-        console.error(err);
-        Swal.fire("Error", "Failed to update group", "error");
+    try {
+      // Get Firebase token
+      const token = await user.getIdToken();
+
+      // Update event
+      const res = await fetch(
+        `https://event-booking-server-wheat.vercel.app/groups/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedGroup),
+        }
+      );
+
+      // Handle errors
+      if (res.status === 401 || res.status === 403) {
+        alert("Unauthorized: Please log in again");
+        return;
+      }
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Server error:", errorData);
+        Swal.fire("Error", errorData.message || "Failed to update event", "error");
+        return;
+      }
+
+      // Success
+      const data = await res.json().catch(() => ({}));
+      Swal.fire({
+        icon: "success",
+        title: "Event updated successfully",
+        timer: 1500,
+        showConfirmButton: false,
       });
+      navigate("/myGroup");
+    } catch (error) {
+      console.error("Update error:", error);
+      Swal.fire("Error", "Failed to update event. Please try again.", "error");
+    }
   };
 
   if (loading) return (

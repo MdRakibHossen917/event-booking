@@ -219,7 +219,7 @@ const VolunteerOpportunities = () => {
       </section>
 
       {/* Why Volunteer Section */}
-      <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
+      <section className="py-16 md:py-24 bg-white dark:bg-gray-900 px-4 md:px-6">
         <div className="w-11/12 mx-auto max-w-7xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-[#27548A] dark:text-blue-400 mb-4">
@@ -230,7 +230,7 @@ const VolunteerOpportunities = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-4">
             {[
               {
                 icon: Heart,
@@ -272,7 +272,7 @@ const VolunteerOpportunities = () => {
       </section>
 
       {/* Opportunities Section */}
-      <section id="opportunities" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50">
+      <section id="opportunities" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50 ">
         <div className="w-11/12 mx-auto max-w-7xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-[#27548A] dark:text-blue-400 mb-4">
@@ -301,7 +301,7 @@ const VolunteerOpportunities = () => {
           </div>
 
           {/* Opportunities Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4">
             {filteredOpportunities.map((opportunity, index) => (
               <motion.div
                 key={opportunity.id}
